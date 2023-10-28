@@ -97,9 +97,23 @@ let ShoppingList = createVisualComponent({
         <h2>Vlastník: {ShoppingListDetailMap.owner}</h2>
         <h2>Členové: {ShoppingListDetailMap.membersList}</h2>
 
-        {itemList.map((item) => (
-          <Item key={item} id={item} name={ItemsMap[item]} setItemList={setItemList} />
-        ))}
+        <div>
+          <Uu5Elements.ListItem
+            actionList={[
+              { icon: "uugds-plus", children: "Create", primary: true, colorScheme: "green" },
+              { icon: "uugds-delete", children: "Delete", primary: true, colorScheme: "red" },
+            ]}
+            colorScheme="primary"
+          >
+            <strong>Seznam</strong>
+          </Uu5Elements.ListItem>
+
+          {itemList.map((item) => (
+            <Uu5Elements.ListItem>
+              <Item key={item} id={item} name={ItemsMap[item]} setItemList={setItemList} />
+            </Uu5Elements.ListItem>
+          ))}
+        </div>
       </div>
     );
   },
