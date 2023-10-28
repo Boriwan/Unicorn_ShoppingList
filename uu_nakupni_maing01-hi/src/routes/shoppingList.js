@@ -4,11 +4,17 @@ import { Utils, createVisualComponent, useSession, useElementSize, useRoute, use
 import { useSubApp, useSystemData } from "uu_plus4u5g02";
 import Plus4U5App, { withRoute } from "uu_plus4u5g02-app";
 import Uu5Elements from "uu5g05-elements";
+import Uu5Forms from "uu5g05-forms";
+
 import { useState } from "uu5g05";
 
 import Config from "./config/config.js";
 import RouteBar from "../core/route-bar.js";
+
+// Own components
 import Item from "../bricks/item.js";
+import ButtonGroup from "../bricks/button-group.js";
+import ListInfo from "../bricks/list-info.js";
 
 //@@viewOn:constants
 
@@ -38,12 +44,12 @@ let ShoppingList = createVisualComponent({
     };
 
     const ItemsMap = {
-      i1: "špagety",
-      i2: "sýr",
-      i3: "kečup",
-      i4: "máslo",
-      i5: "mléko",
-      i6: "vejce",
+      i1: "Špagety",
+      i2: "Sýr",
+      i3: "Kečup",
+      i4: "Máslo",
+      i5: "Mléko",
+      i6: "Vejce",
     };
 
     const [route, setRoute] = useRoute();
@@ -78,24 +84,13 @@ let ShoppingList = createVisualComponent({
     return (
       <div {...attrs}>
         <RouteBar />
-        <div>
-          <Uu5Elements.Button icon="uugds-delete" colorScheme="red">
-            Smazat
-          </Uu5Elements.Button>
-          <Uu5Elements.Button icon="uugdsstencil-uiaction-archive" colorScheme="blue">
-            Archivovat
-          </Uu5Elements.Button>
-          <Uu5Elements.Button icon="uugds-plus-circle" colorScheme="green">
-            Pozvat člena
-          </Uu5Elements.Button>
-        </div>
+        <ButtonGroup />
 
-        <h1>
-          {ShoppingListDetailMap.name || "Shopping List with the given ID does not exist"}{" "}
-          <Uu5Elements.Button icon="uugds-pencil" colorScheme="cyan"></Uu5Elements.Button>{" "}
-        </h1>
-        <h2>Vlastník: {ShoppingListDetailMap.owner}</h2>
-        <h2>Členové: {ShoppingListDetailMap.membersList}</h2>
+        <ListInfo
+          name={ShoppingListDetailMap.name}
+          owner={ShoppingListDetailMap.owner}
+          membersList={ShoppingListDetailMap.membersList}
+        />
 
         <div>
           <Uu5Elements.ListItem
@@ -111,6 +106,7 @@ let ShoppingList = createVisualComponent({
           {itemList.map((item) => (
             <Uu5Elements.ListItem>
               <Item key={item} id={item} name={ItemsMap[item]} setItemList={setItemList} />
+  
             </Uu5Elements.ListItem>
           ))}
         </div>
