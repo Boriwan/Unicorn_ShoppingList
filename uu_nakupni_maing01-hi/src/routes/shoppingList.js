@@ -80,13 +80,13 @@ let ShoppingList = createVisualComponent({
         <RouteBar />
         <div>
           <Uu5Elements.Button icon="uugds-delete" colorScheme="red">
-            Delete
+            Smazat
           </Uu5Elements.Button>
           <Uu5Elements.Button icon="uugdsstencil-uiaction-archive" colorScheme="blue">
-            Archive
+            Archivovat
           </Uu5Elements.Button>
           <Uu5Elements.Button icon="uugds-plus-circle" colorScheme="green">
-            Invite
+            Pozvat člena
           </Uu5Elements.Button>
         </div>
 
@@ -99,13 +99,13 @@ let ShoppingList = createVisualComponent({
 
         <div>
           <Uu5Elements.ListItem
-            actionList={[
-              { icon: "uugds-plus", children: "Create", primary: true, colorScheme: "green" },
-              { icon: "uugds-delete", children: "Delete", primary: true, colorScheme: "red" },
-            ]}
-            colorScheme="primary"
+            actionList={[{ icon: "uugds-plus", children: "Přidat", primary: true, colorScheme: "light-green" }]}
+            colorScheme="cyan"
           >
-            <strong>Seznam</strong>
+            <div>
+              <Uu5Elements.Button icon="uugds-filter" colorScheme="dark-blue" />
+              <strong> Seznam věcí</strong>
+            </div>
           </Uu5Elements.ListItem>
 
           {itemList.map((item) => (

@@ -44,7 +44,6 @@ const Item = createVisualComponent({
     //@@viewOn:render
     return (
       <div>
-        {props.name}
         <Uu5Elements.Button
           icon="mdi-close"
           colorScheme="negative"
@@ -61,6 +60,7 @@ const Item = createVisualComponent({
             })
           }
         ></Uu5Elements.Button>
+        {props.name}
       </div>
     );
     //@@viewOff:render
