@@ -5,6 +5,7 @@ import Config from "./config/config.js";
 import Uu5Elements from "uu5g05-elements";
 import { useState } from "uu5g05";
 import Uu5Forms from "uu5g05-forms";
+import MemberTile from "./member-tile.js";
 
 //@@viewOff:imports
 
@@ -45,11 +46,20 @@ const ListInfo = createVisualComponent({
     };
 
     const updateNameInParent = () => {
-      // Update the props with the new name
       props.onUpdateName(name);
 
       // Close the modal
       setOpen(false);
+    };
+
+    const handleRemoveMember = (memberId) => {
+      const updatedMembersList = props.membersList.filter((id) => id !== memberId);
+      props.onUpdateMembersList(updatedMembersList);
+
+      // Optionally, you can also remove the member from MembersMap here
+      // const updatedMembersMap = { ...props.MembersMap };
+      // delete updatedMembersMap[memberId];
+      // props.onUpdateMembersMap(updatedMembersMap);
     };
 
     //@@viewOff:private
@@ -64,18 +74,31 @@ const ListInfo = createVisualComponent({
           {props.name || "Shopping List with the given ID does not exist"}{" "}
           <Uu5Elements.Button onClick={() => setOpen(true)} icon="uugds-pencil" colorScheme="cyan"></Uu5Elements.Button>
           <Uu5Elements.Modal header="Upravit nákupní seznam" {...props} open={open} onClose={() => setOpen(false)}>
-            <Uu5Forms.FormText initialValue={name} onChange={handleInputChange} label="Název" placeholder="Název" />
+            <Uu5Forms.FormText initialValue={name} onChange={handleInputChange} label="Název " placeholder="Název" />
 
-            <Uu5Elements.Button onClick={() => setOpen(false)} icon="uugds-close" colorScheme="red">
+            <div>
+              <p>Členové</p>
+              {props.membersList.map((memberId) => (
+                <MemberTile
+                  key={memberId}
+                  id={memberId}
+                  name={props.MembersMap[memberId]}
+                  onRemoveMember={handleRemoveMember}
+                />
+              ))}
+            </div>
+
+            <Uu5Elements.Button onClick={() => setOpen(false)} iconRight="uugds-close" colorScheme="red">
               Zrušit
             </Uu5Elements.Button>
-            <Uu5Elements.Button onClick={updateNameInParent} icon="uugds-pencil" colorScheme="green">
+            <Uu5Elements.Button onClick={updateNameInParent} iconRight="uugds-pencil" colorScheme="cyan">
               Uložit
             </Uu5Elements.Button>
           </Uu5Elements.Modal>
         </h1>
         <h2>Vlastník: {props.owner}</h2>
-        <h2>Členové: {props.membersList}</h2>
+
+        <h2>Členové: {props.membersList.map((memberId) => props.MembersMap[memberId]).join(", ")}</h2>
       </div>
     );
     //@@viewOff:render

@@ -4,6 +4,7 @@ import { Utils, createVisualComponent, useSession, useElementSize, useRoute, use
 import { useSubApp, useSystemData } from "uu_plus4u5g02";
 import Plus4U5App, { withRoute } from "uu_plus4u5g02-app";
 import Uu5Elements from "uu5g05-elements";
+import Uu5Forms from "uu5g05-forms";
 
 import { useState } from "uu5g05";
 
@@ -35,27 +36,54 @@ let ShoppingList = createVisualComponent({
     const { identity } = useSession();
     const ownerName = identity.name;
 
-       const [ShoppingListDetailMap, setShoppingListDetailMap] = useState({
-         name: "Můj nákupní seznam #1",
-         owner: ownerName,
-         membersList: [],
-         itemList: ["i1", "i2", "i3", "i4"],
-       });
+    const [ShoppingListDetailMap, setShoppingListDetailMap] = useState({
+      name: "Můj nákupní seznam #1",
+      owner: ownerName,
+      membersList: ["m1", "m2", "m3"],
+      itemList: ["i1", "i2", "i3", "i4"],
+    });
 
-    const ItemsMap = {
+    const MembersMap = {
+      m1: "Karel Novák",
+      m2: "Petr Pavel",
+      m3: "Vojtěch Skalný",
+      m4: "Petr Jasný",
+      m5: "Tomáš Buben",
+      m6: "Jan Voříšek",
+    };
+
+    const [ItemMap, setItemMap] = useState({
       i1: "Špagety",
       i2: "Sýr",
       i3: "Kečup",
       i4: "Máslo",
       i5: "Mléko",
       i6: "Vejce",
-    };
+    });
 
-    const [route, setRoute] = useRoute();
+    // const [route, setRoute] = useRoute();
     // const shoppingListId = route.params.id;
     const [itemList, setItemList] = useState(ShoppingListDetailMap?.itemList || []);
     // const shoppingListIds = Object.keys(ShoppingListDetailMap);
-    console.log(route); // Log the route parameters
+
+    const [open, setOpen] = useState();
+    const [newItem, setNewItem] = useState("");
+    const [isInputDirty, setIsInputDirty] = useState(false);
+
+    const updateMembersListInParent = (newMembersList, newMember) => {
+      setShoppingListDetailMap((prevData) => ({
+        ...prevData,
+        membersList: newMembersList,
+      }));
+
+      if (newMember.trim() !== "") {
+        const newMemberId = `m${newMembersList.length}`;
+        setMembersMap((prevMap) => ({
+          ...prevMap,
+          [newMemberId]: newMember,
+        }));
+      }
+    };
 
     const updateNameInListInfo = (newName) => {
       // You can replace ShoppingListDetailMap with updated data
@@ -67,6 +95,33 @@ let ShoppingList = createVisualComponent({
 
       // Set the updated data to re-render ListInfo with the new name prop
       setShoppingListDetailMap(updatedShoppingListDetailMap);
+    };
+
+    const handleInputChange = (event) => {
+      const newValue = event.target.value;
+      setNewItem(newValue);
+      setIsInputDirty(!!newValue);
+    };
+
+    const addItem = () => {
+      if (isInputDirty) {
+        // Check if the input is dirty before adding the item
+        if (newItem.trim() !== "") {
+          // Generate a new item ID and add it to the ItemMap
+          const newItemId = `i${itemList.length + 1}`;
+          setItemMap({ ...ItemMap, [newItemId]: newItem });
+
+          // Update the shopping list with the new item ID
+          setItemList([...itemList, newItemId]);
+
+          // Reset the new item input field and input dirty flag
+          setNewItem("");
+          setIsInputDirty(false);
+        }
+      }
+
+      // Always close the modal when the "Přidat předmět" button is clicked
+      setOpen(false);
     };
 
     const { data: systemData } = useSystemData();
@@ -94,20 +149,46 @@ let ShoppingList = createVisualComponent({
     return (
       <div {...attrs}>
         <RouteBar />
-        <ButtonGroup />
+        <ButtonGroup membersList={ShoppingListDetailMap.membersList} onUpdateMembersList={updateMembersListInParent} />
 
         <ListInfo
           name={ShoppingListDetailMap.name}
           owner={ShoppingListDetailMap.owner}
           membersList={ShoppingListDetailMap.membersList}
           onUpdateName={updateNameInListInfo}
+          MembersMap={MembersMap}
         />
 
         <div>
           <Uu5Elements.ListItem
-            actionList={[{ icon: "uugds-plus", children: "Přidat", primary: true, colorScheme: "light-green" }]}
+            actionList={[
+              {
+                iconRight: "uugds-plus",
+                children: "Přidat",
+                primary: true,
+                colorScheme: "light-green",
+                onClick: () => setOpen(true),
+              },
+            ]}
             colorScheme="cyan"
           >
+            <Uu5Elements.Modal header="Upravit nákupní seznam" {...props} open={open} onClose={() => setOpen(false)}>
+              <Uu5Forms.FormText
+                onChange={handleInputChange}
+                initialValue={newItem}
+                label="Název předmětu"
+                placeholder="Název předmětu"
+                required
+              />
+
+              <Uu5Elements.Button onClick={() => setOpen(false)} iconRight="uugds-close" colorScheme="red">
+                Zrušit
+              </Uu5Elements.Button>
+              <Uu5Elements.Button onClick={addItem} iconRight="uugds-plus" colorScheme="green">
+                Přidat předmět
+              </Uu5Elements.Button>
+            </Uu5Elements.Modal>
+
             <div>
               <Uu5Elements.Button icon="uugds-filter" colorScheme="dark-blue" />
               <strong> Seznam věcí</strong>
@@ -116,7 +197,7 @@ let ShoppingList = createVisualComponent({
 
           {itemList.map((item) => (
             <Uu5Elements.ListItem>
-              <Item key={item} id={item} name={ItemsMap[item]} setItemList={setItemList} />
+              <Item key={item} id={item} name={ItemMap[item]} setItemList={setItemList} />
             </Uu5Elements.ListItem>
           ))}
         </div>

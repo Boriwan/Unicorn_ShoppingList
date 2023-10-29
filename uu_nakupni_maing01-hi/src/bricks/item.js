@@ -36,11 +36,10 @@ const Item = createVisualComponent({
 
   render(props) {
     //@@viewOn:private
-    const { icon, value: propValue = false, onClick } = props;
-    const [value, setValue] = useState(propValue);
-    
-
+    const { left, children } = props;
     //@@viewOff:private
+    const { icon, value: propValue = false, colorScheme, onClick, significance } = props;
+    const [value, setValue] = useState(propValue);
 
     //@@viewOn:interface
     //@@viewOff:interface
@@ -66,6 +65,9 @@ const Item = createVisualComponent({
         ></Uu5Elements.Button>
         {props.name}
         <Uu5Forms.Checkbox.Input
+          {...props}
+          colorScheme={colorScheme || (value ? "primary" : undefined)}
+          significance={significance === "highlighted" && value ? significance : "common"}
           icon={value ? icon : undefined}
           onClick={(e) => {
             typeof onClick === "function" && onClick(e);
