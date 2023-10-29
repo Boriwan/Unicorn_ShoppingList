@@ -4,7 +4,6 @@ import { Utils, createVisualComponent, useSession, useElementSize, useRoute, use
 import { useSubApp, useSystemData } from "uu_plus4u5g02";
 import Plus4U5App, { withRoute } from "uu_plus4u5g02-app";
 import Uu5Elements from "uu5g05-elements";
-import Uu5Forms from "uu5g05-forms";
 
 import { useState } from "uu5g05";
 
@@ -36,12 +35,12 @@ let ShoppingList = createVisualComponent({
     const { identity } = useSession();
     const ownerName = identity.name;
 
-    const ShoppingListDetailMap = {
-      name: "Můj nákupní seznam #1",
-      owner: ownerName,
-      membersList: [],
-      itemList: ["i1", "i2", "i3", "i4"],
-    };
+       const [ShoppingListDetailMap, setShoppingListDetailMap] = useState({
+         name: "Můj nákupní seznam #1",
+         owner: ownerName,
+         membersList: [],
+         itemList: ["i1", "i2", "i3", "i4"],
+       });
 
     const ItemsMap = {
       i1: "Špagety",
@@ -56,8 +55,19 @@ let ShoppingList = createVisualComponent({
     // const shoppingListId = route.params.id;
     const [itemList, setItemList] = useState(ShoppingListDetailMap?.itemList || []);
     // const shoppingListIds = Object.keys(ShoppingListDetailMap);
-
     console.log(route); // Log the route parameters
+
+    const updateNameInListInfo = (newName) => {
+      // You can replace ShoppingListDetailMap with updated data
+      // and pass the new name value to ListInfo
+      const updatedShoppingListDetailMap = {
+        ...ShoppingListDetailMap,
+        name: newName,
+      };
+
+      // Set the updated data to re-render ListInfo with the new name prop
+      setShoppingListDetailMap(updatedShoppingListDetailMap);
+    };
 
     const { data: systemData } = useSystemData();
     const {
@@ -90,6 +100,7 @@ let ShoppingList = createVisualComponent({
           name={ShoppingListDetailMap.name}
           owner={ShoppingListDetailMap.owner}
           membersList={ShoppingListDetailMap.membersList}
+          onUpdateName={updateNameInListInfo}
         />
 
         <div>
@@ -106,7 +117,6 @@ let ShoppingList = createVisualComponent({
           {itemList.map((item) => (
             <Uu5Elements.ListItem>
               <Item key={item} id={item} name={ItemsMap[item]} setItemList={setItemList} />
-  
             </Uu5Elements.ListItem>
           ))}
         </div>

@@ -4,6 +4,8 @@ import { createVisualComponent, PropTypes } from "uu5g05";
 import Config from "./config/config.js";
 import Uu5Elements from "uu5g05-elements";
 import { useState } from "uu5g05";
+import Uu5Forms from "uu5g05-forms";
+
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -34,7 +36,9 @@ const Item = createVisualComponent({
 
   render(props) {
     //@@viewOn:private
-    const { left, children } = props;
+    const { icon, value: propValue = false, onClick } = props;
+    const [value, setValue] = useState(propValue);
+    
 
     //@@viewOff:private
 
@@ -61,6 +65,13 @@ const Item = createVisualComponent({
           }
         ></Uu5Elements.Button>
         {props.name}
+        <Uu5Forms.Checkbox.Input
+          icon={value ? icon : undefined}
+          onClick={(e) => {
+            typeof onClick === "function" && onClick(e);
+            setValue((v) => !v);
+          }}
+        />
       </div>
     );
     //@@viewOff:render
