@@ -44,13 +44,12 @@ const ButtonGroup = createVisualComponent({
       setNewMember(newValue);
     };
 
-    // ButtonGroup component
     const addMember = () => {
-      // Check if the input is non-empty
-      const newMembersList = [...props.membersList, newMember];
-      props.onUpdateMembersList(newMembersList, newMember); // Pass newMember here
-      setNewMember("");
-
+      if (newMember.trim() !== "") {
+        const newMembersList = [...props.membersList, newMember];
+        props.onUpdateMembersList(newMembersList, newMember);
+        setNewMember("");
+      }
       setOpen(false);
     };
 

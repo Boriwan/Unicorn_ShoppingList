@@ -55,11 +55,6 @@ const ListInfo = createVisualComponent({
     const handleRemoveMember = (memberId) => {
       const updatedMembersList = props.membersList.filter((id) => id !== memberId);
       props.onUpdateMembersList(updatedMembersList);
-
-      // Optionally, you can also remove the member from MembersMap here
-      // const updatedMembersMap = { ...props.MembersMap };
-      // delete updatedMembersMap[memberId];
-      // props.onUpdateMembersMap(updatedMembersMap);
     };
 
     //@@viewOff:private

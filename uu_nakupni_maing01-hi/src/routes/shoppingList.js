@@ -43,14 +43,14 @@ let ShoppingList = createVisualComponent({
       itemList: ["i1", "i2", "i3", "i4"],
     });
 
-    const MembersMap = {
+    const [MembersMap, setMembersMap] = useState({
       m1: "Karel Novák",
       m2: "Petr Pavel",
       m3: "Vojtěch Skalný",
       m4: "Petr Jasný",
       m5: "Tomáš Buben",
       m6: "Jan Voříšek",
-    };
+    });
 
     const [ItemMap, setItemMap] = useState({
       i1: "Špagety",
@@ -86,14 +86,11 @@ let ShoppingList = createVisualComponent({
     };
 
     const updateNameInListInfo = (newName) => {
-      // You can replace ShoppingListDetailMap with updated data
-      // and pass the new name value to ListInfo
       const updatedShoppingListDetailMap = {
         ...ShoppingListDetailMap,
         name: newName,
       };
 
-      // Set the updated data to re-render ListInfo with the new name prop
       setShoppingListDetailMap(updatedShoppingListDetailMap);
     };
 
@@ -105,22 +102,17 @@ let ShoppingList = createVisualComponent({
 
     const addItem = () => {
       if (isInputDirty) {
-        // Check if the input is dirty before adding the item
         if (newItem.trim() !== "") {
-          // Generate a new item ID and add it to the ItemMap
           const newItemId = `i${itemList.length + 1}`;
           setItemMap({ ...ItemMap, [newItemId]: newItem });
 
-          // Update the shopping list with the new item ID
           setItemList([...itemList, newItemId]);
 
-          // Reset the new item input field and input dirty flag
           setNewItem("");
           setIsInputDirty(false);
         }
       }
 
-      // Always close the modal when the "Přidat předmět" button is clicked
       setOpen(false);
     };
 
@@ -150,7 +142,6 @@ let ShoppingList = createVisualComponent({
       <div {...attrs}>
         <RouteBar />
         <ButtonGroup membersList={ShoppingListDetailMap.membersList} onUpdateMembersList={updateMembersListInParent} />
-
         <ListInfo
           name={ShoppingListDetailMap.name}
           owner={ShoppingListDetailMap.owner}
