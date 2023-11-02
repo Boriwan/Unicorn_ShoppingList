@@ -6,7 +6,7 @@ import Plus4U5App from "uu_plus4u5g02-app";
 
 import Config from "./config/config.js";
 import Home from "../routes/home.js";
-import ShoppingList from "../routes/shoppingList.js";
+import ShoppingList from "../routes/shoppingListDetail.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
