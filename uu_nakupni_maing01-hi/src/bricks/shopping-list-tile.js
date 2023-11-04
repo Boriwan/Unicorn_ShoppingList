@@ -39,7 +39,9 @@ const ShoppingListTile = createVisualComponent({
     //@@viewOn:render
     const [route, setRoute] = useRoute();
     const ownerName = props.owner.name;
-    console.log(ownerName);
+
+    const memberNames = props.membersList.map((member) => member.name);
+    console.log(memberNames);
 
     return (
       <Uu5Elements.Tile header={props.name} headerColorScheme="cyan" aspectRatio="12x12">
@@ -50,7 +52,7 @@ const ShoppingListTile = createVisualComponent({
               name: props.name,
               ownerId: props.ownerId,
               ownerName: ownerName,
-              membersList: props.membersList,
+              membersList: memberNames,
               itemList: props.itemList,
             });
           }}

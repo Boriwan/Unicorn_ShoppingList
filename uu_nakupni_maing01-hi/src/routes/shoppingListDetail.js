@@ -71,6 +71,9 @@ let ShoppingListDetail = createVisualComponent({
 
     const [itemList, setItemList] = useState(itemListArray);
 
+
+
+
     console.log(itemList);
     const [newItem, setNewItem] = useState("");
 
@@ -84,31 +87,24 @@ let ShoppingListDetail = createVisualComponent({
         const updatedItemList = [...itemList, trimmedItem];
         setItemList(updatedItemList);
 
-        // Update the JSON data to add the item to the current shopping list
         const updatedShoppingListData = shoppingListData.map((list) => {
           if (list.id === route.params.id) {
-            return { ...list, itemList: [...list.itemList, trimmedItem] };
+            const updatedItemList = [...list.itemList, trimmedItem];
+            return { ...list, itemList: updatedItemList };
           }
           return list;
         });
-        console.log("route.params.id: ", route.params.id);
-        console.log("newItem: ", newItem);
-        console.log("updatedShoppingListData: ", updatedShoppingListData);
 
-        // Store the updated data in local storage
         localStorage.setItem("shoppingListData", JSON.stringify(updatedShoppingListData));
 
-        // Clear the input field
         setNewItem("");
       }
     };
 
     const handleItemDelete = (itemName) => {
-      // Remove the item from itemList
       const updatedItemList = itemList.filter((item) => item !== itemName);
       setItemList(updatedItemList);
 
-      // Update the JSON data file by removing the item
       const updatedShoppingListData = shoppingListData.map((list) => {
         if (list.id === route.params.id) {
           const updatedItemList = list.itemList.filter((item) => item !== itemName);
@@ -117,7 +113,6 @@ let ShoppingListDetail = createVisualComponent({
         return list;
       });
 
-      // Store the updated data in local storage
       localStorage.setItem("shoppingListData", JSON.stringify(updatedShoppingListData));
     };
 
@@ -127,6 +122,7 @@ let ShoppingListDetail = createVisualComponent({
       </Uu5Elements.ListItem>
     ));
 
+    console.log(route.params.membersList);
     //@@viewOn:render
     const attrs = Utils.VisualComponent.getAttrs(props, Css.detail());
     return (

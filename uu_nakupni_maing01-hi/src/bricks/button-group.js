@@ -62,9 +62,6 @@ const ButtonGroup = createVisualComponent({
         >
           Archivovat
         </Uu5Elements.Button>
-        <Uu5Elements.Button className={Css.button()} iconRight="uugds-plus-circle" colorScheme="green">
-          Pozvat člena
-        </Uu5Elements.Button>
       </div>
     );
     //@@viewOff:render
