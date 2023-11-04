@@ -51,15 +51,10 @@ const ButtonGroup = createVisualComponent({
 
     return (
       <div {...attrs}>
-        <Uu5Elements.Button className={Css.button()} disabled iconRight="uugds-delete" colorScheme="red">
+        <Uu5Elements.Button className={Css.button()} iconRight="uugds-delete" colorScheme="red">
           Smazat
         </Uu5Elements.Button>
-        <Uu5Elements.Button
-          className={Css.button()}
-          disabled
-          iconRight="uugdsstencil-uiaction-archive"
-          colorScheme="blue"
-        >
+        <Uu5Elements.Button className={Css.button()} iconRight="uugdsstencil-uiaction-archive" colorScheme="blue">
           Archivovat
         </Uu5Elements.Button>
       </div>

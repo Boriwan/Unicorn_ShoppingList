@@ -5,6 +5,7 @@ import { useSubApp, useSystemData } from "uu_plus4u5g02";
 import Plus4U5App, { withRoute } from "uu_plus4u5g02-app";
 import Uu5Elements from "uu5g05-elements";
 import { useState } from "uu5g05";
+import Uu5Forms from "uu5g05-forms";
 
 import Config from "./config/config.js";
 import Item from "../bricks/item.js";
@@ -44,6 +45,7 @@ let ShoppingListDetail = createVisualComponent({
     //@@viewOn:private
     const { identity } = useSession();
 
+
     const { data: systemData } = useSystemData();
     const {
       uuAppBusinessModelUri,
@@ -70,15 +72,32 @@ let ShoppingListDetail = createVisualComponent({
     const itemListArray = itemListParam ? itemListParam.split(",") : [];
 
     const [itemList, setItemList] = useState(itemListArray);
+    const [newItem, setNewItem] = useState("");
+    const [open, setOpen] = useState();
 
+    const isOwner = identity.uuIdentity === route.params.ownerId;
 
+    const renderEditButton = isOwner && (
+      <Uu5Elements.Button onClick={() => setOpen(true)} icon="uugds-pencil" colorScheme="cyan" />
+    );
 
+    const renderButtonGroup = isOwner && <ButtonGroup />;
 
     console.log(itemList);
-    const [newItem, setNewItem] = useState("");
 
     const handleInputChange = (event) => {
       setNewItem(event.target.value);
+    };
+
+    const [editedName, setEditedName] = useState(route.params.name);
+
+    const handleNameChange = (event) => {
+      setEditedName(event.target.value);
+    };
+
+    const updateNameInModal = () => {
+      setEditedName((route.params.name = editedName)); 
+      setOpen(false);
     };
 
     const addItem = () => {
@@ -122,7 +141,6 @@ let ShoppingListDetail = createVisualComponent({
       </Uu5Elements.ListItem>
     ));
 
-    console.log(route.params.membersList);
     //@@viewOn:render
     const attrs = Utils.VisualComponent.getAttrs(props, Css.detail());
     return (
@@ -132,13 +150,33 @@ let ShoppingListDetail = createVisualComponent({
           <div className={Css.detailOrder()}>
             <div>
               <h1>
-                {route.params.name || "Shopping List with the given ID does not exist"}{" "}
-                <Uu5Elements.Button icon="uugds-pencil" colorScheme="cyan"></Uu5Elements.Button>{" "}
+                {route.params.name || "Shopping List with the given ID does not exist"}
+                {renderEditButton}
+                <Uu5Elements.Modal header="Upravit nákupní seznam" open={open} onClose={() => setOpen(false)}>
+                  <Uu5Forms.FormText
+                    initialValue={editedName}
+                    onChange={handleNameChange}
+                    label="Název "
+                    placeholder="Název"
+                  />
+
+                  <div>
+                    <p>Členové</p>
+                    {route.params.membersList}
+                  </div>
+
+                  <Uu5Elements.Button onClick={() => setOpen(false)} iconRight="uugds-close" colorScheme="red">
+                    Zrušit
+                  </Uu5Elements.Button>
+                  <Uu5Elements.Button onClick={updateNameInModal} iconRight="uugds-pencil" colorScheme="cyan">
+                    Uložit
+                  </Uu5Elements.Button>
+                </Uu5Elements.Modal>
               </h1>
               <h2>Vlastník: {route.params.ownerName}</h2>
               <h2>Členové: {route.params.membersList}</h2>
             </div>
-            <ButtonGroup />
+            {renderButtonGroup}
           </div>
 
           <div>
