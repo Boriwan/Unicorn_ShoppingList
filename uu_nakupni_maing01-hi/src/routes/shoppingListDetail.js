@@ -7,10 +7,24 @@ import Uu5Elements from "uu5g05-elements";
 import { useState } from "uu5g05";
 
 import Config from "./config/config.js";
-import RouteBar from "../core/route-bar.js";
 import Item from "../bricks/item.js";
+import RouteBar from "../core/route-bar.js";
+import ButtonGroup from "../bricks/button-group.js";
 
 //@@viewOn:constants
+
+const Css = {
+  detail: () =>
+    Config.Css.css({
+      padding: "1em",
+    }),
+  detailOrder: () =>
+    Config.Css.css({
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+    }),
+};
 
 let ShoppingListDetail = createVisualComponent({
   //@@viewOn:statics
@@ -51,48 +65,66 @@ let ShoppingListDetail = createVisualComponent({
 
     const [route, setRoute] = useRoute();
 
-    console.log(props);
+    const itemListParam = route.params.itemList;
+    const itemListArray = itemListParam ? itemListParam.split(",") : [];
+
+    const [itemList, setItemList] = useState(itemListArray);
+
+    console.log(itemList);
+
+    // Create a function to delete an item
+    const handleItemDelete = (itemName) => {
+      // Remove the item from itemList
+      const updatedItemList = itemList.filter((item) => item !== itemName);
+      setItemList(updatedItemList);
+
+      // Update the JSON data file by removing the item
+      const updatedShoppingListData = shoppingListData.map((list) => {
+        if (list.id === route.params.id) {
+          const updatedItemList = list.itemList.filter((item) => item !== itemName);
+          return { ...list, itemList: updatedItemList };
+        }
+        return list;
+      });
+
+      // Store the updated data in local storage
+      localStorage.setItem("shoppingListData", JSON.stringify(updatedShoppingListData));
+    };
+
+    const items = itemList.map((item) => (
+      <Uu5Elements.ListItem key={item}>
+        <Item name={item} setItemList={setItemList} onItemDelete={handleItemDelete} />
+      </Uu5Elements.ListItem>
+    ));
 
     //@@viewOn:render
-    const attrs = Utils.VisualComponent.getAttrs(props);
+    const attrs = Utils.VisualComponent.getAttrs(props, Css.detail());
     return (
-      <div {...attrs}>
-        {/* <div>
-          <Uu5Elements.Button icon="uugds-delete" colorScheme="red">
-            Delete
-          </Uu5Elements.Button>
-          <Uu5Elements.Button icon="uugdsstencil-uiaction-archive" colorScheme="blue">
-            Archive
-          </Uu5Elements.Button>
-          <Uu5Elements.Button icon="uugds-plus-circle" colorScheme="green">
-            Invite
-          </Uu5Elements.Button>
-        </div>
+      <div>
+        <RouteBar />
+        <div {...attrs}>
+          <div className={Css.detailOrder()}>
+            <div>
+              <h1>
+                {route.params.name || "Shopping List with the given ID does not exist"}{" "}
+                <Uu5Elements.Button icon="uugds-pencil" colorScheme="cyan"></Uu5Elements.Button>{" "}
+              </h1>
+              <h2>Vlastník: {route.params.ownerName}</h2>
+              <h2>Členové: {route.params.membersList}</h2>
+            </div>
+            <ButtonGroup />
+          </div>
 
-        <h1>
-          {ShoppingListDetailMap.name || "Shopping List with the given ID does not exist"}{" "}
-          <Uu5Elements.Button icon="uugds-pencil" colorScheme="cyan"></Uu5Elements.Button>{" "}
-        </h1>
-        <h2>Vlastník: {ShoppingListDetailMap.ownerName}</h2>
-        <h2>Členové: {ShoppingListDetailMap.membersList}</h2>
-
-        <div>
-          <Uu5Elements.ListItem colorScheme="cyan">
-            <strong>Seznam</strong>
-          </Uu5Elements.ListItem>
-
-          {itemList.map((item) => (
-            <Uu5Elements.ListItem>
-              <Item key={item} id={item} name={ItemsMap[item]} setItemList={setItemList} />
+          <div>
+            <Uu5Elements.ListItem header="Seznam" headerType="title" colorScheme="cyan">
+              <strong>Seznam</strong>
             </Uu5Elements.ListItem>
-          ))}
-        </div> */}
-        <h1>{route.params.id}</h1>
-        {route.params.name}
-        {route.params.ownerId}
-        {route.params.ownerName}
-        {route.params.membersList}
-        {route.params.itemList}
+            {items}
+            <Uu5Elements.ListItem>
+              <Uu5Elements.Input placeholder="Zadejte další předmět" />
+            </Uu5Elements.ListItem>
+          </div>
+        </div>
       </div>
     );
   },

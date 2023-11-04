@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { Utils, createVisualComponent, useSession, useElementSize, useRoute, useScreenSize } from "uu5g05";
+import { Utils, createVisualComponent, useSession } from "uu5g05";
 
 import { useSubApp, useSystemData } from "uu_plus4u5g02";
 import Plus4U5App, { withRoute } from "uu_plus4u5g02-app";
@@ -8,10 +8,28 @@ import { useState } from "uu5g05";
 
 import Config from "./config/config.js";
 import RouteBar from "../core/route-bar.js";
-import Item from "../bricks/item.js";
 import ShoppingListTile from "../bricks/shopping-list-tile.js";
+import shoppingListData from "../data/shoppingLists.json";
+import { ArtifactLink } from "uu_plus4u5g02-elements";
 
 //@@viewOn:constants
+
+const Css = {
+  button: () =>
+    Config.Css.css({
+      margin: "1rem",
+    }),
+  order: () =>
+    Config.Css.css({
+      display: "flex",
+    }),
+  tiles: () => ({
+    display: "flex",
+    flexDirection: "row",
+    alignItem: "center",
+    flexWrap: "wrap"
+  }),
+};
 
 let ShoppingLists = createVisualComponent({
   //@@viewOn:statics
@@ -30,39 +48,26 @@ let ShoppingLists = createVisualComponent({
     //@@viewOn:private
     const { identity } = useSession();
 
-    const ShoppingListsMap = [
-      {
-        id: Utils.String.generateId(),
-        name: "Můj nákupní seznam #1",
-        ownerId: "822-5205-4105-0000",
-        ownerName: "Bouris Boček",
-        membersList: ["Karel Novák", "Jan Novotný"],
-        itemList: ["i1", "i2", "i3", "i4"],
-      },
-      {
-        id: Utils.String.generateId(),
-        name: "Můj nákupní seznam #2",
-        ownerId: "822-5205-4105-0000",
-        ownerName: "Bouris Boček",
-        membersList: [],
-        itemList: ["i1", "i2", "i3", "i4"],
-      },
-    ];
+    // const ShoppingListsMap = [
+    //   {
+    //     id: Utils.String.generateId(),
+    //     name: "Můj nákupní seznam #1",
+    //     ownerId: "822-5205-4105-0000",
+    //     ownerName: "Bouris Boček",
+    //     membersList: ["Karel Novák", "Jan Novotný"],
+    //     itemList: ["i1", "i2", "i3", "i4"],
+    //   },
+    //   {
+    //     id: Utils.String.generateId(),
+    //     name: "Můj nákupní seznam #2",
+    //     ownerId: "822-5205-4105-0000",
+    //     ownerName: "Bouris Boček",
+    //     membersList: [],
+    //     itemList: ["i1", "i2", "i3", "i4"],
+    //   },
+    // ];
 
-    const ItemsMap = {
-      i1: "špagety",
-      i2: "sýr",
-      i3: "kečup",
-      i4: "máslo",
-      i5: "mléko",
-      i6: "vejce",
-    };
-
-    // const shoppingListId = route.params.id;
-    const [itemList, setItemList] = useState(ShoppingListsMap?.itemList || []);
-    // const shoppingListIds = Object.keys(ShoppingListDetailMap);
-
-    const [shoppingList, setShoppingList] = useState(ShoppingListsMap);
+    const shoppingList = shoppingListData;
 
     const { data: systemData } = useSystemData();
     const {
@@ -79,21 +84,53 @@ let ShoppingLists = createVisualComponent({
     if (uuAppUserGuideUri) products.push({ baseUri: uuAppUserGuideUri });
     if (uuAppWebKitUri) products.push({ baseUri: uuAppWebKitUri });
 
-    //@@viewOff:private
-
-    //@@viewOn:interface
-    //@@viewOff:interface
-
-    //@@viewOn:render
-    const attrs = Utils.VisualComponent.getAttrs(props);
-
-    return (
-      <Uu5Elements.Block header="Moje nákupní seznamy" headerType="title">
-        {shoppingList.map((item) => (
+    const ownedLists = shoppingList.filter((list) => list.owner.id === identity.uuIdentity);
+    const sharedLists = shoppingList.filter((list) =>
+      list.membersList.some((member) => member.id === identity.uuIdentity)
+    );
+    const showOwned = (
+      <Uu5Elements.Block className={Css.tiles()} header="Moje nákupní seznamy" headerType="title">
+        {ownedLists.map((item) => (
           <Uu5Elements.Block>
             <ShoppingListTile key={item.id} {...item} />
           </Uu5Elements.Block>
         ))}
+      </Uu5Elements.Block>
+    );
+
+    const showSharedWithMe = (
+      <Uu5Elements.Block className={Css.tiles()} header="Sdíleno se mnou" headerType="title">
+        {sharedLists.map((item) => (
+          <Uu5Elements.Block>
+            <ShoppingListTile key={item.id} {...item} />
+          </Uu5Elements.Block>
+        ))}
+      </Uu5Elements.Block>
+    );
+
+    //@@viewOff:private
+
+    //@@viewOn:interface
+    //@@viewOff:interface
+    console.log(shoppingList);
+
+    //@@viewOn:render
+    const attrs = Utils.VisualComponent.getAttrs(props, Css.button());
+
+    return (
+      <Uu5Elements.Block className={Css.order()}>
+        <Uu5Elements.Block>
+          <Uu5Elements.Button className={Css.button()} iconRight="uugdsstencil-uiaction-archive" colorScheme="blue">
+            Archivované
+          </Uu5Elements.Button>
+          <Uu5Elements.Button className={Css.button()} iconRight="uugds-plus-circle" colorScheme="green">
+            Vytvořit seznam
+          </Uu5Elements.Button>
+        </Uu5Elements.Block>
+        <Uu5Elements.Block className={Css.tiles()}>
+          {showOwned}
+          {showSharedWithMe}
+        </Uu5Elements.Block>
       </Uu5Elements.Block>
     );
   },

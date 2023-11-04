@@ -34,8 +34,10 @@ const Item = createVisualComponent({
 
   render(props) {
     //@@viewOn:private
-    const { left, children } = props;
-
+    const handleDelete = () => {
+      // Call the parent component's onItemDelete function
+      props.onItemDelete(props.name);
+    };
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -44,23 +46,8 @@ const Item = createVisualComponent({
     //@@viewOn:render
     return (
       <div>
+        <Uu5Elements.Button icon="mdi-close" colorScheme="negative" onClick={handleDelete}></Uu5Elements.Button>
         {props.name}
-        <Uu5Elements.Button
-          icon="mdi-close"
-          colorScheme="negative"
-          onClick={() =>
-            props.setItemList((currentList) => {
-              const index = currentList.indexOf(props.id);
-              if (index !== -1) {
-                // Check if the item exists in the list before removing it
-                const updatedList = [...currentList]; // Create a copy of the list
-                updatedList.splice(index, 1); // Remove the item
-                return updatedList; // Return the updated list
-              }
-              return currentList; // Item not found, return the original list
-            })
-          }
-        ></Uu5Elements.Button>
       </div>
     );
     //@@viewOff:render

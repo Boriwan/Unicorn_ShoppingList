@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { Utils, createVisualComponent, useRoute } from "uu5g05";
+import { Utils, createVisualComponent, useRoute, useSession } from "uu5g05";
 
 import Config from "./config/config.js";
 import Uu5Elements from "uu5g05-elements";
@@ -38,12 +38,21 @@ const ShoppingListTile = createVisualComponent({
 
     //@@viewOn:render
     const [route, setRoute] = useRoute();
+    const ownerName = props.owner.name;
+    console.log(ownerName);
 
     return (
-      <Uu5Elements.Tile header={props.name} aspectRatio="8x8">
+      <Uu5Elements.Tile header={props.name} headerColorScheme="cyan" aspectRatio="12x12">
         <Uu5Elements.Button
           onClick={() => {
-            setRoute("shoppingList", { id: props.id, name: props.name, ownerId: props.ownerId, ownerName: props.ownerName, membersList: props.membersList, itemList: props.itemList});
+            setRoute("shoppingList", {
+              id: props.id,
+              name: props.name,
+              ownerId: props.ownerId,
+              ownerName: ownerName,
+              membersList: props.membersList,
+              itemList: props.itemList,
+            });
           }}
         >
           Otevřít
