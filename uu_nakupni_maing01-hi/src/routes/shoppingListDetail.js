@@ -12,9 +12,9 @@ import Item from "../bricks/item.js";
 
 //@@viewOn:constants
 
-let ShoppingList = createVisualComponent({
+let ShoppingListDetail = createVisualComponent({
   //@@viewOn:statics
-  uu5Tag: Config.TAG + "ShoppingList",
+  uu5Tag: Config.TAG + "ShoppingListDetail",
   //@@viewOff:statics
 
   //@@viewOn:propTypes
@@ -28,30 +28,6 @@ let ShoppingList = createVisualComponent({
   render(props) {
     //@@viewOn:private
     const { identity } = useSession();
-    const ownerName = identity.name;
-
-    const ShoppingListDetailMap = {
-      name: "Můj nákupní seznam #1",
-      owner: ownerName,
-      membersList: [],
-      itemList: ["i1", "i2", "i3", "i4"],
-    };
-
-    const ItemsMap = {
-      i1: "špagety",
-      i2: "sýr",
-      i3: "kečup",
-      i4: "máslo",
-      i5: "mléko",
-      i6: "vejce",
-    };
-
-    const [route, setRoute] = useRoute();
-    // const shoppingListId = route.params.id;
-    const [itemList, setItemList] = useState(ShoppingListDetailMap?.itemList || []);
-    // const shoppingListIds = Object.keys(ShoppingListDetailMap);
-
-    console.log(route); // Log the route parameters
 
     const { data: systemData } = useSystemData();
     const {
@@ -73,12 +49,15 @@ let ShoppingList = createVisualComponent({
     //@@viewOn:interface
     //@@viewOff:interface
 
+    const [route, setRoute] = useRoute();
+
+    console.log(props);
+
     //@@viewOn:render
     const attrs = Utils.VisualComponent.getAttrs(props);
     return (
       <div {...attrs}>
-        <RouteBar />
-        <div>
+        {/* <div>
           <Uu5Elements.Button icon="uugds-delete" colorScheme="red">
             Delete
           </Uu5Elements.Button>
@@ -94,17 +73,11 @@ let ShoppingList = createVisualComponent({
           {ShoppingListDetailMap.name || "Shopping List with the given ID does not exist"}{" "}
           <Uu5Elements.Button icon="uugds-pencil" colorScheme="cyan"></Uu5Elements.Button>{" "}
         </h1>
-        <h2>Vlastník: {ShoppingListDetailMap.owner}</h2>
+        <h2>Vlastník: {ShoppingListDetailMap.ownerName}</h2>
         <h2>Členové: {ShoppingListDetailMap.membersList}</h2>
 
         <div>
-          <Uu5Elements.ListItem
-            actionList={[
-              { icon: "uugds-plus", children: "Create", primary: true, colorScheme: "green" },
-              { icon: "uugds-delete", children: "Delete", primary: true, colorScheme: "red" },
-            ]}
-            colorScheme="primary"
-          >
+          <Uu5Elements.ListItem colorScheme="cyan">
             <strong>Seznam</strong>
           </Uu5Elements.ListItem>
 
@@ -113,16 +86,22 @@ let ShoppingList = createVisualComponent({
               <Item key={item} id={item} name={ItemsMap[item]} setItemList={setItemList} />
             </Uu5Elements.ListItem>
           ))}
-        </div>
+        </div> */}
+        <h1>{route.params.id}</h1>
+        {route.params.name}
+        {route.params.ownerId}
+        {route.params.ownerName}
+        {route.params.membersList}
+        {route.params.itemList}
       </div>
     );
   },
   //@@viewOff:render
 });
 
-ShoppingList = withRoute(ShoppingList);
+ShoppingListDetail = withRoute(ShoppingListDetail);
 
 //@@viewOn:exports
-export { ShoppingList };
-export default ShoppingList;
+export { ShoppingListDetail };
+export default ShoppingListDetail;
 //@@viewOff:exports
