@@ -83,8 +83,6 @@ let ShoppingListDetail = createVisualComponent({
 
     const renderButtonGroup = isOwner && <ButtonGroup />;
 
-    console.log(itemList);
-
     const handleInputChange = (event) => {
       setNewItem(event.target.value);
     };

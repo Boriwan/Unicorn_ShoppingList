@@ -40,8 +40,6 @@ const ShoppingListTile = createVisualComponent({
     const [route, setRoute] = useRoute();
     const ownerName = props.owner.name;
     const ownerId = props.owner.id;
-    console.log(ownerName, ownerId);
-
     const memberNames = props.membersList.map((member) => member.name);
 
     return (

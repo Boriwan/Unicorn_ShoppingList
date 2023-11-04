@@ -53,59 +53,29 @@ let ShoppingLists = createVisualComponent({
 
     const [open, setOpen] = useState();
     const [newList, setNewList] = useState({ name: "", items: [] });
-    const [newItem, setNewItem] = useState("");
-    const [shoppingLists, setShoppingLists] = useState(shoppingListData);
 
-    const handleInputChange = (value, name) => {
-      if (name === "name") {
-        setNewList((prevList) => ({
-          ...prevList,
-          [name]: value,
-        }));
-      } else if (name === "newItem") {
-        setNewItem(value);
-      }
-    };
+     const createShoppingList = () => {
+       if (newList.name.trim() === "") {
+         alert("Please enter a name for the shopping list.");
+         return;
+       }
 
-    const createShoppingList = () => {
-      if (newList.name.trim() === "") {
-        alert("Please enter a name for the shopping list.");
-        return;
-      }
+       const newShoppingListObject = {
+         id: Utils.String.generateId(),
+         name: newList.name,
+         owner: {
+           id: identity.uuIdentity,
+           name: identity.name,
+         },
+         membersList: [],
+         itemList: [], 
+       };
 
-      const newShoppingListObject = {
-        id: Utils.String.generateId(),
-        ...newList,
-        owner: {
-          id: identity.uuIdentity,
-          name: identity.name,
-        },
-        membersList: [],
-      };
+       shoppingListData.push(newShoppingListObject);
 
-      // Update your shopping lists data using setShoppingLists
-      setShoppingLists((prevLists) => [...prevLists, newShoppingListObject]);
-
-      setNewList({ name: "", items: [] });
-      setNewItem("");
-      setOpen(false);
-    };
-
-    const addItem = () => {
-      if (newItem.trim() !== "") {
-        setNewList((prevList) => ({
-          ...prevList,
-          items: [
-            ...prevList.items,
-            {
-              id: Utils.String.generateId(),
-              value: newItem.trim(),
-            },
-          ],
-        }));
-        setNewItem("");
-      }
-    };
+       setNewList({ name: "" });
+       setOpen(false);
+     };
 
     const ownedLists = shoppingList.filter((list) => list.owner.id === identity.uuIdentity);
     const sharedLists = shoppingList.filter((list) =>
@@ -135,10 +105,11 @@ let ShoppingLists = createVisualComponent({
 
     //@@viewOn:interface
     //@@viewOff:interface
-    console.log(shoppingList);
 
     //@@viewOn:render
     const attrs = Utils.VisualComponent.getAttrs(props, Css.button());
+
+    console.log(newList.name);
 
     return (
       <Uu5Elements.Block className={Css.order()}>
@@ -156,28 +127,12 @@ let ShoppingLists = createVisualComponent({
           </Uu5Elements.Button>
           <Uu5Elements.Modal header="Vytvořit nákupní seznam" open={open} onClose={() => setOpen(false)}>
             <Uu5Forms.FormText
-              name="name"
-              onChange={handleInputChange}
+              onChange={(value) => setNewList({ ...newList, name: value })}
               value={newList.name}
               label="Název nákupního seznamu"
               placeholder="Název"
               required
             />
-            {newList.items.map((item) => (
-              <Uu5Elements.ListItem key={item.id}>{item.value}</Uu5Elements.ListItem>
-            ))}
-
-            <Uu5Elements.ListItem>
-              <Uu5Elements.Input
-                name="newItem"
-                placeholder="Zadejte další předmět"
-                value={newItem}
-                onChange={(val) => setNewItem(val)}
-              />
-              <Uu5Elements.Button iconRight="uugds-plus" colorScheme="green" onClick={addItem}>
-                Přidat
-              </Uu5Elements.Button>
-            </Uu5Elements.ListItem>
             <Uu5Elements.Button onClick={() => setOpen(false)} iconRight="uugds-close" colorScheme="red">
               Zrušit
             </Uu5Elements.Button>
