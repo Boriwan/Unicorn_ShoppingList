@@ -10,6 +10,7 @@ import Config from "./config/config.js";
 import Item from "../bricks/item.js";
 import RouteBar from "../core/route-bar.js";
 import ButtonGroup from "../bricks/button-group.js";
+import shoppingListData from "../data/shoppingLists.json";
 
 //@@viewOn:constants
 
@@ -71,8 +72,37 @@ let ShoppingListDetail = createVisualComponent({
     const [itemList, setItemList] = useState(itemListArray);
 
     console.log(itemList);
+    const [newItem, setNewItem] = useState("");
 
-    // Create a function to delete an item
+    const handleInputChange = (event) => {
+      setNewItem(event.target.value);
+    };
+
+    const addItem = () => {
+      if (typeof newItem === "string" && newItem.trim() !== "") {
+        const trimmedItem = newItem.trim();
+        const updatedItemList = [...itemList, trimmedItem];
+        setItemList(updatedItemList);
+
+        // Update the JSON data to add the item to the current shopping list
+        const updatedShoppingListData = shoppingListData.map((list) => {
+          if (list.id === route.params.id) {
+            return { ...list, itemList: [...list.itemList, trimmedItem] };
+          }
+          return list;
+        });
+        console.log("route.params.id: ", route.params.id);
+        console.log("newItem: ", newItem);
+        console.log("updatedShoppingListData: ", updatedShoppingListData);
+
+        // Store the updated data in local storage
+        localStorage.setItem("shoppingListData", JSON.stringify(updatedShoppingListData));
+
+        // Clear the input field
+        setNewItem("");
+      }
+    };
+
     const handleItemDelete = (itemName) => {
       // Remove the item from itemList
       const updatedItemList = itemList.filter((item) => item !== itemName);
@@ -121,7 +151,10 @@ let ShoppingListDetail = createVisualComponent({
             </Uu5Elements.ListItem>
             {items}
             <Uu5Elements.ListItem>
-              <Uu5Elements.Input placeholder="Zadejte další předmět" />
+              <Uu5Elements.Input placeholder="Zadejte další předmět" value={newItem} onChange={handleInputChange} />
+              <Uu5Elements.Button iconRight="uugds-plus" colorScheme="green" onClick={addItem}>
+                Přidat
+              </Uu5Elements.Button>
             </Uu5Elements.ListItem>
           </div>
         </div>
