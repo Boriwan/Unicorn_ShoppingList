@@ -49,12 +49,47 @@ const ButtonGroup = createVisualComponent({
     //@@viewOn:render
     const attrs = Utils.VisualComponent.getAttrs(props, Css.button());
 
+    const [open, setOpen] = useState();
+
+    const confirmDeleteModal = (
+      <Uu5Elements.Modal width="30rem" header="Smazat nákupní seznam" open={open} onClose={() => setOpen(false)}>
+        <h3>Opravdu chcete smazat tento nákupní seznam?</h3>
+        <p>Tato akce je nevratná...</p>
+
+        <Uu5Elements.Button
+          onClick={() => {
+            setOpen(false), setNewList("");
+          }}
+          iconRight="uugds-close"
+          colorScheme="neutral"
+        >
+          Zrušit
+        </Uu5Elements.Button>
+        <Uu5Elements.Button onClick={props.handleDeleteList} iconRight="uugds-delete" colorScheme="red">
+          Ano, smazat!
+        </Uu5Elements.Button>
+      </Uu5Elements.Modal>
+    );
+
     return (
       <div {...attrs}>
-        <Uu5Elements.Button className={Css.button()} iconRight="uugds-delete" colorScheme="red">
+        <Uu5Elements.Button
+          onClick={() => {
+            setOpen(true);
+          }}
+          className={Css.button()}
+          iconRight="uugds-delete"
+          colorScheme="red"
+        >
           Smazat
         </Uu5Elements.Button>
-        <Uu5Elements.Button className={Css.button()} iconRight="uugdsstencil-uiaction-archive" colorScheme="blue">
+        {confirmDeleteModal}
+        <Uu5Elements.Button
+          onClick={props.handleArchiveList}
+          className={Css.button()}
+          iconRight="uugdsstencil-uiaction-archive"
+          colorScheme="blue"
+        >
           Archivovat
         </Uu5Elements.Button>
       </div>

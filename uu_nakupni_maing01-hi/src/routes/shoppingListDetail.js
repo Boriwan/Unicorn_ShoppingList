@@ -45,7 +45,6 @@ let ShoppingListDetail = createVisualComponent({
     //@@viewOn:private
     const { identity } = useSession();
 
-
     const { data: systemData } = useSystemData();
     const {
       uuAppBusinessModelUri,
@@ -76,12 +75,11 @@ let ShoppingListDetail = createVisualComponent({
     const [open, setOpen] = useState();
 
     const isOwner = identity.uuIdentity === route.params.ownerId;
+    const isArchived = route.params.isArchived;
 
-    const renderEditButton = isOwner && (
+    const renderEditButton = isOwner && isArchived === "false" && (
       <Uu5Elements.Button onClick={() => setOpen(true)} icon="uugds-pencil" colorScheme="cyan" />
     );
-
-    const renderButtonGroup = isOwner && <ButtonGroup />;
 
     const handleInputChange = (event) => {
       setNewItem(event.target.value);
@@ -94,7 +92,7 @@ let ShoppingListDetail = createVisualComponent({
     };
 
     const updateNameInModal = () => {
-      setEditedName((route.params.name = editedName)); 
+      setEditedName((route.params.name = editedName));
       setOpen(false);
     };
 
@@ -133,11 +131,54 @@ let ShoppingListDetail = createVisualComponent({
       localStorage.setItem("shoppingListData", JSON.stringify(updatedShoppingListData));
     };
 
+    console.log(route.params.isArchived);
+
+    const handleArchiveList = () => {
+      const updatedRouteParams = { ...route.params, isArchived: true };
+      setRoute("archivedLists", { params: updatedRouteParams });
+    };
+
+    const handleDeleteList = () => {
+      const listIdToDelete = route.params.id;
+
+      const listToDeleteIndex = shoppingListData.findIndex((list) => list.id === listIdToDelete);
+      if (listToDeleteIndex !== -1) {
+        const listToMoveToEnd = shoppingListData[listToDeleteIndex];
+        shoppingListData.splice(listToDeleteIndex, 1);
+        shoppingListData.push(listToMoveToEnd);
+
+        // Now, you can use pop to remove the last list
+        shoppingListData.pop();
+
+        localStorage.setItem("shoppingListData", JSON.stringify(shoppingListData));
+      }
+
+      setRoute("home");
+    };
+
+    const renderButtonGroup = isOwner && isArchived === "false" && (
+      <ButtonGroup handleArchiveList={handleArchiveList} handleDeleteList={handleDeleteList} />
+    );
+
     const items = itemList.map((item) => (
       <Uu5Elements.ListItem key={item}>
-        <Item name={item} setItemList={setItemList} onItemDelete={handleItemDelete} />
+        <Item name={item} setItemList={setItemList} onItemDelete={handleItemDelete} isArchived={isArchived} />
       </Uu5Elements.ListItem>
     ));
+
+    const renderAddItem = isArchived === "false" && (
+      <Uu5Elements.ListItem>
+        <Uu5Elements.Input
+          placeholder="Zadejte další předmět"
+          value={newItem}
+          onChange={handleInputChange}
+          significance="subdued"
+        />
+        <Uu5Elements.Button iconRight="uugds-plus" colorScheme="green" onClick={addItem}>
+          Přidat
+        </Uu5Elements.Button>
+      </Uu5Elements.ListItem>
+    );
 
     //@@viewOn:render
     const attrs = Utils.VisualComponent.getAttrs(props, Css.detail());
@@ -182,12 +223,7 @@ let ShoppingListDetail = createVisualComponent({
               <strong>Seznam</strong>
             </Uu5Elements.ListItem>
             {items}
-            <Uu5Elements.ListItem>
-              <Uu5Elements.Input placeholder="Zadejte další předmět" value={newItem} onChange={handleInputChange} />
-              <Uu5Elements.Button iconRight="uugds-plus" colorScheme="green" onClick={addItem}>
-                Přidat
-              </Uu5Elements.Button>
-            </Uu5Elements.ListItem>
+            {renderAddItem}
           </div>
         </div>
       </div>

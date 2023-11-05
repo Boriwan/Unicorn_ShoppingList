@@ -50,9 +50,12 @@ let Home = createVisualComponent({
     //@@viewOn:render
     const attrs = Utils.VisualComponent.getAttrs(props, Css.main());
     return (
-      <div {...attrs}>
-        <ShoppingLists />
-      </div>
+      <>
+        <RouteBar />
+        <div {...attrs}>
+          <ShoppingLists />
+        </div>
+      </>
     );
     //@@viewOff:render
   },

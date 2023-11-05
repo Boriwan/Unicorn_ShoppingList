@@ -43,8 +43,10 @@ const ShoppingListTile = createVisualComponent({
     const memberNames = props.membersList.map((member) => member.name);
 
     return (
-      <Uu5Elements.Tile header={props.name} headerColorScheme="cyan" aspectRatio="12x12">
+      <Uu5Elements.Tile header={props.name} headerColorScheme="cyan" width={200} height={150}>
+        <p>Členové: {props.membersList.length}</p>
         <Uu5Elements.Button
+          colorScheme="purple"
           onClick={() => {
             setRoute("shoppingList", {
               id: props.id,
@@ -53,6 +55,7 @@ const ShoppingListTile = createVisualComponent({
               ownerName: ownerName,
               membersList: memberNames,
               itemList: props.itemList,
+              isArchived: props.isArchived,
             });
           }}
         >

@@ -43,10 +43,14 @@ const Item = createVisualComponent({
     //@@viewOn:interface
     //@@viewOff:interface
 
+    const renderButton = props.isArchived === "false" && (
+      <Uu5Elements.Button icon="mdi-close" colorScheme="negative" onClick={handleDelete}></Uu5Elements.Button>
+    );
+
     //@@viewOn:render
     return (
       <div>
-        <Uu5Elements.Button icon="mdi-close" colorScheme="negative" onClick={handleDelete}></Uu5Elements.Button>
+        {renderButton}
         {props.name}
       </div>
     );

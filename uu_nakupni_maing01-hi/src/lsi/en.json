@@ -31,7 +31,7 @@
   },
   "Menu": {
     "home": "Home",
-    "shoppingList": "Shopping List",
+    "archive": "Archive",
     "about": "About Application"
   }
 }
