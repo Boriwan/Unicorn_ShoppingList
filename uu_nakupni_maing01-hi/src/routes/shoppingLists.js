@@ -52,30 +52,34 @@ let ShoppingLists = createVisualComponent({
     const shoppingList = shoppingListData;
 
     const [open, setOpen] = useState();
-    const [newList, setNewList] = useState({ name: "", items: [] });
+    const [newList, setNewList] = useState({ name: "" });
 
-     const createShoppingList = () => {
-       if (newList.name.trim() === "") {
-         alert("Please enter a name for the shopping list.");
-         return;
-       }
+    const handleNameChange = (event) => {
+      setNewList({ name: event.target.value });
+    };
 
-       const newShoppingListObject = {
-         id: Utils.String.generateId(),
-         name: newList.name,
-         owner: {
-           id: identity.uuIdentity,
-           name: identity.name,
-         },
-         membersList: [],
-         itemList: [], 
-       };
+    const createShoppingList = () => {
+      if (newList.name.trim() === "") {
+        alert("Please enter a name for the shopping list.");
+        return;
+      }
 
-       shoppingListData.push(newShoppingListObject);
+      const newShoppingListObject = {
+        id: Utils.String.generateId(),
+        name: newList.name,
+        owner: {
+          id: identity.uuIdentity,
+          name: identity.name,
+        },
+        membersList: [],
+        itemList: [],
+      };
 
-       setNewList({ name: "" });
-       setOpen(false);
-     };
+      shoppingListData.push(newShoppingListObject);
+
+      setNewList({ name: "" });
+      setOpen(false);
+    };
 
     const ownedLists = shoppingList.filter((list) => list.owner.id === identity.uuIdentity);
     const sharedLists = shoppingList.filter((list) =>
@@ -109,8 +113,6 @@ let ShoppingLists = createVisualComponent({
     //@@viewOn:render
     const attrs = Utils.VisualComponent.getAttrs(props, Css.button());
 
-    console.log(newList.name);
-
     return (
       <Uu5Elements.Block className={Css.order()}>
         <Uu5Elements.Block>
@@ -126,12 +128,11 @@ let ShoppingLists = createVisualComponent({
             Vytvořit seznam
           </Uu5Elements.Button>
           <Uu5Elements.Modal header="Vytvořit nákupní seznam" open={open} onClose={() => setOpen(false)}>
-            <Uu5Forms.FormText
-              onChange={(value) => setNewList({ ...newList, name: value })}
+            <Uu5Forms.Text.Input
+              onChange={handleNameChange}
               value={newList.name}
               label="Název nákupního seznamu"
               placeholder="Název"
-              required
             />
             <Uu5Elements.Button onClick={() => setOpen(false)} iconRight="uugds-close" colorScheme="red">
               Zrušit
