@@ -7,6 +7,7 @@ import { withRoute } from "uu_plus4u5g02-app";
 import Config from "./config/config.js";
 import RouteBar from "../core/route-bar.js";
 import importLsi from "../lsi/import-lsi.js";
+import ShoppingLists from "./shoppingLists.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -14,10 +15,9 @@ import importLsi from "../lsi/import-lsi.js";
 
 //@@viewOn:css
 const Css = {
-  icon: () =>
+  main: () =>
     Config.Css.css({
-      fontSize: 48,
-      lineHeight: "1em",
+      padding: 32,
     }),
 };
 //@@viewOff:css
@@ -50,32 +50,10 @@ let Home = createVisualComponent({
     return (
       <>
         <RouteBar />
-        <WelcomeRow left={<Plus4U5Elements.PersonPhoto size="xl" borderRadius="none" />}>
-          <Uu5Elements.Text category="story" segment="heading" type="h2">
-            <Lsi import={importLsi} path={["Home", "welcome"]} />
-          </Uu5Elements.Text>
-          {identity && (
-            <Uu5Elements.Text category="story" segment="heading" type="h2">
-              {identity.name}
-            </Uu5Elements.Text>
-          )}
-        </WelcomeRow>
-        <WelcomeRow left={<Uu5Elements.Icon icon="mdi-human-greeting" className={Css.icon()} />}>
-          <Uu5Elements.Text category="story" segment="body" type="common">
-            <Lsi import={importLsi} path={["Home", "intro"]} />
-          </Uu5Elements.Text>
-        </WelcomeRow>
-        <WelcomeRow left={<Uu5Elements.Icon icon="mdi-monitor" className={Css.icon()} />}>
-          <Uu5Elements.Text category="story" segment="body" type="common">
-            <Lsi import={importLsi} path={["Home", "clientSide"]} />
-          </Uu5Elements.Text>
-        </WelcomeRow>
-        <WelcomeRow left={<Uu5Elements.Icon icon="mdi-server" className={Css.icon()} />}>
-          <Uu5Elements.Text category="story" segment="body" type="common">
-            <Lsi import={importLsi} path={["Home", "serverSide"]} />
-          </Uu5Elements.Text>
-        </WelcomeRow>
-      </div>
+        <div {...attrs}>
+          <ShoppingLists />
+        </div>
+      </>
     );
     //@@viewOff:render
   },
