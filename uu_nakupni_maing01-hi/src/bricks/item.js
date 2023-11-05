@@ -37,6 +37,7 @@ const Item = createVisualComponent({
   render(props) {
     //@@viewOn:private
     const { left, children } = props;
+
     //@@viewOff:private
     const { icon, value: propValue = false, colorScheme, onClick, significance } = props;
     const [value, setValue] = useState(propValue);
@@ -44,9 +45,14 @@ const Item = createVisualComponent({
     //@@viewOn:interface
     //@@viewOff:interface
 
+    const renderButton = props.isArchived === "false" && (
+      <Uu5Elements.Button icon="mdi-close" colorScheme="negative" onClick={handleDelete}></Uu5Elements.Button>
+    );
+
     //@@viewOn:render
     return (
       <div>
+        {props.name}
         <Uu5Elements.Button
           icon="mdi-close"
           colorScheme="negative"
@@ -63,17 +69,6 @@ const Item = createVisualComponent({
             })
           }
         ></Uu5Elements.Button>
-        {props.name}
-        <Uu5Forms.Checkbox.Input
-          {...props}
-          colorScheme={colorScheme || (value ? "primary" : undefined)}
-          significance={significance === "highlighted" && value ? significance : "common"}
-          icon={value ? icon : undefined}
-          onClick={(e) => {
-            typeof onClick === "function" && onClick(e);
-            setValue((v) => !v);
-          }}
-        />
       </div>
     );
     //@@viewOff:render

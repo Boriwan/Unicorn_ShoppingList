@@ -1,0 +1,29 @@
+[
+  {
+    "id": "ea0ba4c76572a47d1902a2ce782dc9b8",
+    "name": "Můj nákupní seznam #1",
+    "owner": { "id": "822-5205-4105-0000", "name": "Bouris Boček" },
+    "membersList": [
+      { "id": "123-4344-3434-23433", "name": "Karel Novák" },
+      { "id": "546-5455-3453-5435", "name": "Jan Novotný" }
+    ],
+    "itemList": ["špagety", "sýr", "kečup", "mléko"],
+    "isArchived": false
+  },
+  {
+    "id": "29d9aec2a42874190a146de75d5ed3ec",
+    "name": "Můj nákupní seznam #2",
+    "owner": { "id": "83453-33443-44335-5445", "name": "Petr Holeček" },
+    "membersList": [{ "id": "822-5205-4105-0000", "name": "Bouris Boček" }],
+    "itemList": ["vejce", "kokos", "ananas", "džus"],
+    "isArchived": false
+  },
+  {
+    "id": "66547effb21704d7eb8ea48061ace17d",
+    "name": "Můj archivovaný seznam #1",
+    "owner": { "id": "822-5205-4105-0000", "name": "Bouris Boček" },
+    "membersList": [{ "id": "123-4344-3434-23433", "name": "Karel Novák" }],
+    "itemList": ["vejce", "kokos", "ananas", "džus"],
+    "isArchived": true
+  }
+]

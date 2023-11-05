@@ -6,14 +6,20 @@ import { withRoute } from "uu_plus4u5g02-app";
 
 import Config from "./config/config.js";
 import RouteBar from "../core/route-bar.js";
-import ShoppingListTile from "../bricks/shopping-list-tile.js";
+import importLsi from "../lsi/import-lsi.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
 //@@viewOff:constants
 
 //@@viewOn:css
-
+const Css = {
+  icon: () =>
+    Config.Css.css({
+      fontSize: 48,
+      lineHeight: "1em",
+    }),
+};
 //@@viewOff:css
 
 //@@viewOn:helpers
@@ -40,24 +46,35 @@ let Home = createVisualComponent({
     //@@viewOff:interface
 
     //@@viewOn:render
-    const attrs = Utils.VisualComponent.getAttrs(props);
+    const attrs = Utils.VisualComponent.getAttrs(props, Css.main());
     return (
-      <div {...attrs}>
+      <>
         <RouteBar />
-
-        <div>
-          <h1>Moje nákupní seznamy</h1>
-          <div>
-            <ShoppingListTile name="Nákupní seznam 1" members="4" />
-          </div>
-        </div>
-
-        <div>
-          <h1>Sdíleno se mnou</h1>
-          <div>
-            <ShoppingListTile name="Nákupní seznam 1" members="4" />
-          </div>
-        </div>
+        <WelcomeRow left={<Plus4U5Elements.PersonPhoto size="xl" borderRadius="none" />}>
+          <Uu5Elements.Text category="story" segment="heading" type="h2">
+            <Lsi import={importLsi} path={["Home", "welcome"]} />
+          </Uu5Elements.Text>
+          {identity && (
+            <Uu5Elements.Text category="story" segment="heading" type="h2">
+              {identity.name}
+            </Uu5Elements.Text>
+          )}
+        </WelcomeRow>
+        <WelcomeRow left={<Uu5Elements.Icon icon="mdi-human-greeting" className={Css.icon()} />}>
+          <Uu5Elements.Text category="story" segment="body" type="common">
+            <Lsi import={importLsi} path={["Home", "intro"]} />
+          </Uu5Elements.Text>
+        </WelcomeRow>
+        <WelcomeRow left={<Uu5Elements.Icon icon="mdi-monitor" className={Css.icon()} />}>
+          <Uu5Elements.Text category="story" segment="body" type="common">
+            <Lsi import={importLsi} path={["Home", "clientSide"]} />
+          </Uu5Elements.Text>
+        </WelcomeRow>
+        <WelcomeRow left={<Uu5Elements.Icon icon="mdi-server" className={Css.icon()} />}>
+          <Uu5Elements.Text category="story" segment="body" type="common">
+            <Lsi import={importLsi} path={["Home", "serverSide"]} />
+          </Uu5Elements.Text>
+        </WelcomeRow>
       </div>
     );
     //@@viewOff:render
