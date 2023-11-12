@@ -116,6 +116,8 @@ let ShoppingListDetail = createVisualComponent({
       }
     };
 
+    
+
     const handleItemDelete = (itemName) => {
       const updatedItemList = itemList.filter((item) => item !== itemName);
       setItemList(updatedItemList);

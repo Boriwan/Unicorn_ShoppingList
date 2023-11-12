@@ -5,7 +5,9 @@
     "owner": { "id": "822-5205-4105-0000", "name": "Bouris Boček" },
     "membersList": [
       { "id": "123-4344-3434-23433", "name": "Karel Novák" },
-      { "id": "546-5455-3453-5435", "name": "Jan Novotný" }
+      { "id": "546-5455-3453-5435", "name": "Jan Novotný" },
+      { "id": "434-432-979-2873", "name": "Honza Němec" },
+      { "id": "434-897-0757-28786", "name": "Fridrich Šťástka" }
     ],
     "itemList": ["špagety", "sýr", "kečup", "mléko"],
     "isArchived": false
@@ -25,5 +27,13 @@
     "membersList": [{ "id": "123-4344-3434-23433", "name": "Karel Novák" }],
     "itemList": ["vejce", "kokos", "ananas", "džus"],
     "isArchived": true
-  }
+  },
+   {
+     "id": "acbd4580caf06469399c15b96006d8d0",
+     "name": "Můj archivovaný seznam #2",
+     "owner": { "id": "822-5205-4105-0000", "name": "Bouris Boček" },
+     "membersList": [{ "id": "123-4344-3434-23433", "name": "Karel Novák" }],
+     "itemList": ["ananas", "maliny", "banány", "piškoty"],
+     "isArchived": true
+   }
 ]

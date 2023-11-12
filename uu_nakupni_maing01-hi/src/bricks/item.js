@@ -4,12 +4,24 @@ import { createVisualComponent, PropTypes } from "uu5g05";
 import Config from "./config/config.js";
 import Uu5Elements from "uu5g05-elements";
 import { useState } from "uu5g05";
+import Uu5Forms from "uu5g05-forms";
 //@@viewOff:imports
 
 //@@viewOn:constants
 //@@viewOff:constants
 
 //@@viewOn:css
+const Css = {
+  check: () =>
+    Config.Css.css({
+      marginTop: 32,
+      marginLeft: 20,
+    }),
+  deleteButton: () =>
+    Config.Css.css({
+      marginRight: 20,
+    }),
+};
 //@@viewOff:css
 
 //@@viewOn:helpers
@@ -41,10 +53,14 @@ const Item = createVisualComponent({
     //@@viewOff:private
 
     //@@viewOn:interface
-    //@@viewOff:interface
+
+    let checked = false;
 
     const renderButton = props.isArchived === "false" && (
-      <Uu5Elements.Button icon="mdi-close" colorScheme="negative" onClick={handleDelete}></Uu5Elements.Button>
+      <Uu5Elements.Button  className={Css.deleteButton()} icon="mdi-close" colorScheme="negative" onClick={handleDelete}></Uu5Elements.Button>
+    );
+    const renderCheckBox = props.isArchived === "false" && (
+      <Uu5Forms.Checkbox.Input icon={checked ? "uugds-check" : undefined} className={Css.check()} disabled={!props.id} />
     );
 
     //@@viewOn:render
@@ -52,6 +68,7 @@ const Item = createVisualComponent({
       <div>
         {renderButton}
         {props.name}
+        {renderCheckBox}
       </div>
     );
     //@@viewOff:render
