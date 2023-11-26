@@ -9,10 +9,10 @@ import Uu5Forms from "uu5g05-forms";
 import { useState } from "uu5g05";
 
 import Config from "./config/config.js";
-import RouteBar from "../core/route-bar.js";
 import ShoppingListTile from "../bricks/shopping-list-tile.js";
-import shoppingListData from "../data/shoppingLists.json";
+import shoppingListData from "../../mock/data/shoppingLists.json";
 
+import Calls from "../calls.js";
 //@@viewOn:constants
 const Css = {
   button: () =>
@@ -38,7 +38,8 @@ let ShoppingLists = createVisualComponent({
     //@@viewOn:private
     const { identity } = useSession();
 
-    const shoppingList = shoppingListData;
+    const shoppingListDataList = useDataList({ handlerMap: { load: Calls.listShoppingLists } });
+
     const [route, setRoute] = useRoute();
 
     const [open, setOpen] = useState();
@@ -66,14 +67,20 @@ let ShoppingLists = createVisualComponent({
         isArchived: false,
       };
 
-      shoppingListData.push(newShoppingListObject);
+      useDataList({ handlerMap: { load: Calls.createShoppingList } });
+
+      shoppingListDataList.push(newShoppingListObject);
 
       setNewList({ name: "" });
       setOpen(false);
     };
 
-    const ownedLists = shoppingList.filter((list) => list.owner.id === identity.uuIdentity);
-    const sharedLists = shoppingList.filter((list) =>
+    //@@viewOff:private
+
+    //@@viewOn:render
+
+    const ownedLists = props.shoppingListDataList.data.filter((list) => list.owner.id === identity.uuIdentity);
+    const sharedLists = props.shoppingListDataList.data.filter((list) =>
       list.membersList.some((member) => member.id === identity.uuIdentity)
     );
     const showOwned = (
@@ -144,7 +151,7 @@ let ShoppingLists = createVisualComponent({
     const attrs = Utils.VisualComponent.getAttrs(props, Css.button());
 
     return (
-      <div>
+      <ListProvider>
         <Uu5Elements.Block>
           <Uu5Elements.Button
             onClick={() => {
@@ -168,7 +175,7 @@ let ShoppingLists = createVisualComponent({
         </Uu5Elements.Block>
         {showOwned}
         {showSharedWithMe}
-      </div>
+      </ListProvider>
     );
   },
   //@@viewOff:render

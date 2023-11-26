@@ -9,6 +9,7 @@ import WelcomeRow from "../bricks/welcome-row.js";
 import RouteBar from "../core/route-bar.js";
 import importLsi from "../lsi/import-lsi.js";
 import ShoppingLists from "./shoppingLists.js";
+
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -53,7 +54,7 @@ let Home = createVisualComponent({
       <>
         <RouteBar />
         <div {...attrs}>
-          <ShoppingLists />
+          <ShoppingLists  />
         </div>
       </>
     );

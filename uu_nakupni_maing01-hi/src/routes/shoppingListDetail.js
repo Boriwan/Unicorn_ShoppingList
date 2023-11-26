@@ -11,7 +11,9 @@ import Config from "./config/config.js";
 import Item from "../bricks/item.js";
 import RouteBar from "../core/route-bar.js";
 import ButtonGroup from "../bricks/button-group.js";
-import shoppingListData from "../data/shoppingLists.json";
+import shoppingListData from "../../mock/data/shoppingLists.json";
+
+import Calls from "../calls.js";
 
 //@@viewOn:constants
 
@@ -93,6 +95,7 @@ let ShoppingListDetail = createVisualComponent({
 
     const updateNameInModal = () => {
       setEditedName((route.params.name = editedName));
+      useDataList({ handlerMap: { load: Calls.updateShoppingList } });
       setOpen(false);
     };
 
@@ -110,13 +113,10 @@ let ShoppingListDetail = createVisualComponent({
           return list;
         });
 
-        localStorage.setItem("shoppingListData", JSON.stringify(updatedShoppingListData));
-
+        useDataList({ handlerMap: { load: Calls.addItem } });
         setNewItem("");
       }
     };
-
-    
 
     const handleItemDelete = (itemName) => {
       const updatedItemList = itemList.filter((item) => item !== itemName);
@@ -130,7 +130,7 @@ let ShoppingListDetail = createVisualComponent({
         return list;
       });
 
-      localStorage.setItem("shoppingListData", JSON.stringify(updatedShoppingListData));
+      useDataList({ handlerMap: { load: Calls.removeItem } });
     };
 
     console.log(route.params.isArchived);
@@ -138,6 +138,7 @@ let ShoppingListDetail = createVisualComponent({
     const handleArchiveList = () => {
       const updatedRouteParams = { ...route.params, isArchived: true };
       setRoute("archivedLists", { params: updatedRouteParams });
+      useDataList({ handlerMap: { load: Calls.archiveShoppingList } });
     };
 
     const handleDeleteList = () => {
@@ -152,7 +153,7 @@ let ShoppingListDetail = createVisualComponent({
         // Now, you can use pop to remove the last list
         shoppingListData.pop();
 
-        localStorage.setItem("shoppingListData", JSON.stringify(shoppingListData));
+        useDataList({ handlerMap: { load: Calls.deleteShoppingList } });
       }
 
       setRoute("home");

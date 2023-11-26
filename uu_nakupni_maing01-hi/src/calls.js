@@ -42,6 +42,56 @@ const Calls = {
   getCommandUri(useCase, baseUri = Environment.appBaseUri) {
     return (!baseUri.endsWith("/") ? baseUri + "/" : baseUri) + (useCase.startsWith("/") ? useCase.slice(1) : useCase);
   },
+
+  listShoppingLists(dtoIn, baseUri) {
+    const commandUri = Calls.getCommandUri("listShoppingLists", baseUri);
+    return Calls.call("get", commandUri, dtoIn);
+  },
+
+  getShoppingList(dtoIn, baseUri) {
+    const commandUri = Calls.getCommandUri("getShoppingList", baseUri);
+    return Calls.call("get", commandUri, dtoIn);
+  },
+
+  createShoppingList(dtoIn, baseUri) {
+    const commandUri = Calls.getCommandUri("createShoppingList", baseUri);
+    return Calls.call("post", commandUri, dtoIn);
+  },
+
+  updateShoppingList(dtoIn, baseUri) {
+    const commandUri = Calls.getCommandUri("updateShoppingList", baseUri);
+    return Calls.call("post", commandUri, dtoIn);
+  },
+
+  addItem(dtoIn, baseUri) {
+    const commandUri = Calls.getCommandUri("addItem", baseUri);
+    return Calls.call("post", commandUri, dtoIn);
+  },
+
+  removeItem(dtoIn, baseUri) {
+    const commandUri = Calls.getCommandUri("removeItem", baseUri);
+    return Calls.call("post", commandUri, dtoIn);
+  },
+
+  addMember(dtoIn, baseUri) {
+    const commandUri = Calls.getCommandUri("addMember", baseUri);
+    return Calls.call("post", commandUri, dtoIn);
+  },
+
+  removeMember(dtoIn, baseUri) {
+    const commandUri = Calls.getCommandUri("removeMember", baseUri);
+    return Calls.call("post", commandUri, dtoIn);
+  },
+
+  archiveShoppingList(dtoIn, baseUri) {
+    const commandUri = Calls.getCommandUri("archiveShoppingList", baseUri);
+    return Calls.call("post", commandUri, dtoIn);
+  },
+
+  deleteShoppingList(dtoIn, baseUri) {
+    const commandUri = Calls.getCommandUri("deleteShoppingList", baseUri);
+    return Calls.call("post", commandUri, dtoIn);
+  },
 };
 
 export default Calls;
