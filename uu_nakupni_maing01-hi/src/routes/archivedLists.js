@@ -12,7 +12,7 @@ import Config from "./config/config.js";
 import RouteBar from "../core/route-bar.js";
 import ShoppingListTile from "../bricks/shopping-list-tile.js";
 import shoppingListData from "../../mock/data/shoppingLists.json";
-import Calls from "../calls.js";
+// import Calls from "../calls.js";
 
 //@@viewOn:constants
 const Css = {
@@ -43,9 +43,8 @@ let ArchivedLists = createVisualComponent({
 
     // const shoppingList = shoppingListData;
 
-    const shoppingListDataList = useDataList({ handlerMap: { load: Calls.listShoppingLists } });
 
-    const archivedLists = shoppingListDataList.filter((list) => list.owner.id === identity.uuIdentity);
+    const archivedLists = shoppingListData.filter((list) => list.owner.id === identity.uuIdentity);
 
     const showArchived = (
       <Uu5Elements.Block header="Moje archivované nákupní seznamy" headerType="title">

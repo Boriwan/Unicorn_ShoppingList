@@ -13,8 +13,6 @@ import RouteBar from "../core/route-bar.js";
 import ButtonGroup from "../bricks/button-group.js";
 import shoppingListData from "../../mock/data/shoppingLists.json";
 
-import Calls from "../calls.js";
-
 //@@viewOn:constants
 
 const Css = {
@@ -95,7 +93,6 @@ let ShoppingListDetail = createVisualComponent({
 
     const updateNameInModal = () => {
       setEditedName((route.params.name = editedName));
-      useDataList({ handlerMap: { load: Calls.updateShoppingList } });
       setOpen(false);
     };
 
@@ -113,7 +110,8 @@ let ShoppingListDetail = createVisualComponent({
           return list;
         });
 
-        useDataList({ handlerMap: { load: Calls.addItem } });
+        localStorage.setItem("shoppingListData", JSON.stringify(updatedShoppingListData));
+
         setNewItem("");
       }
     };
@@ -130,7 +128,7 @@ let ShoppingListDetail = createVisualComponent({
         return list;
       });
 
-      useDataList({ handlerMap: { load: Calls.removeItem } });
+      localStorage.setItem("shoppingListData", JSON.stringify(updatedShoppingListData));
     };
 
     console.log(route.params.isArchived);
@@ -138,7 +136,6 @@ let ShoppingListDetail = createVisualComponent({
     const handleArchiveList = () => {
       const updatedRouteParams = { ...route.params, isArchived: true };
       setRoute("archivedLists", { params: updatedRouteParams });
-      useDataList({ handlerMap: { load: Calls.archiveShoppingList } });
     };
 
     const handleDeleteList = () => {
@@ -153,7 +150,7 @@ let ShoppingListDetail = createVisualComponent({
         // Now, you can use pop to remove the last list
         shoppingListData.pop();
 
-        useDataList({ handlerMap: { load: Calls.deleteShoppingList } });
+        localStorage.setItem("shoppingListData", JSON.stringify(shoppingListData));
       }
 
       setRoute("home");

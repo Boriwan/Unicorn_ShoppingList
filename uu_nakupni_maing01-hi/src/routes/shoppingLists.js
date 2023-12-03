@@ -12,7 +12,6 @@ import Config from "./config/config.js";
 import ShoppingListTile from "../bricks/shopping-list-tile.js";
 import shoppingListData from "../../mock/data/shoppingLists.json";
 
-import Calls from "../calls.js";
 //@@viewOn:constants
 const Css = {
   button: () =>
@@ -38,8 +37,7 @@ let ShoppingLists = createVisualComponent({
     //@@viewOn:private
     const { identity } = useSession();
 
-    const shoppingListDataList = useDataList({ handlerMap: { load: Calls.listShoppingLists } });
-
+    const shoppingList = shoppingListData;
     const [route, setRoute] = useRoute();
 
     const [open, setOpen] = useState();
@@ -67,20 +65,14 @@ let ShoppingLists = createVisualComponent({
         isArchived: false,
       };
 
-      useDataList({ handlerMap: { load: Calls.createShoppingList } });
-
-      shoppingListDataList.push(newShoppingListObject);
+      shoppingListData.push(newShoppingListObject);
 
       setNewList({ name: "" });
       setOpen(false);
     };
 
-    //@@viewOff:private
-
-    //@@viewOn:render
-
-    const ownedLists = props.shoppingListDataList.data.filter((list) => list.owner.id === identity.uuIdentity);
-    const sharedLists = props.shoppingListDataList.data.filter((list) =>
+    const ownedLists = shoppingList.filter((list) => list.owner.id === identity.uuIdentity);
+    const sharedLists = shoppingList.filter((list) =>
       list.membersList.some((member) => member.id === identity.uuIdentity)
     );
     const showOwned = (
@@ -151,7 +143,7 @@ let ShoppingLists = createVisualComponent({
     const attrs = Utils.VisualComponent.getAttrs(props, Css.button());
 
     return (
-      <ListProvider>
+      <div>
         <Uu5Elements.Block>
           <Uu5Elements.Button
             onClick={() => {
@@ -175,7 +167,7 @@ let ShoppingLists = createVisualComponent({
         </Uu5Elements.Block>
         {showOwned}
         {showSharedWithMe}
-      </ListProvider>
+      </div>
     );
   },
   //@@viewOff:render
