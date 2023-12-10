@@ -51,6 +51,13 @@ const DarkModeSwitch = createVisualComponent({
 
     const [value, setValue] = useState(props.value ?? false);
 
+    const { checked, onChange } = props;
+
+    const handleToggle = () => {
+      // Toggle the value and call the provided onChange callback
+      onChange && onChange({ data: { value: !checked } });
+    };
+
     return (
       <div {...attrs}>
         <Uu5Elements.Toggle value={value} onChange={(e) => setValue(e.data.value)} {...props} />

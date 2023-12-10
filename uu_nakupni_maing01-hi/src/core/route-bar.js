@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createVisualComponent, Lsi, useRoute, useState } from "uu5g05";
+import { createVisualComponent, Lsi, useRoute, useState, useEffect } from "uu5g05";
 import Plus4U5App from "uu_plus4u5g02-app";
 
 import Config from "./config/config.js";
@@ -34,10 +34,32 @@ const RouteBar = createVisualComponent({
   render(props) {
     //@@viewOn:private
     const [, setRoute] = useRoute();
-    const [value, setValue] = useState(true);
+    const [mode, setMode] = useState("light");
+
+    // const toggleDarkMode = () => {
+    //   const newMode = mode === "light" ? "dark" : "light";
+    //   setMode(newMode);
+    // };
+
+    // useEffect(() => {
+    //   const backgroundColor = mode === "light" ? "white" : "black";
+    //   document.body.style.backgroundColor = backgroundColor;
+    // }, [mode]);
 
     const appActionList = [
-      { children: <DarkModeSwitch iconOn="uugdsstencil-weather-sun" iconOff="uugdsstencil-weather-moon" />, collapsed: false },
+      {
+        children: (
+          <DarkModeSwitch
+            iconOn="uugdsstencil-weather-sun"
+            iconOff="uugdsstencil-weather-moon"
+            checked={mode === "dark"}
+            onClick={() => {
+              toggleDarkMode();
+            }}
+          />
+        ),
+        collapsed: false,
+      },
       { children: <Lsi import={importLsi} path={["Menu", "home"]} />, onClick: () => setRoute("home") },
 
       { children: <Lsi import={importLsi} path={["Menu", "archive"]} />, onClick: () => setRoute("archivedLists") },
@@ -46,7 +68,7 @@ const RouteBar = createVisualComponent({
         onClick: () => setRoute("about"),
         collapsed: true,
       },
-      { children: <LanguageSelect />, collapsed: false},
+      { children: <LanguageSelect />, collapsed: false },
     ];
     //@@viewOff:private
 
@@ -54,7 +76,7 @@ const RouteBar = createVisualComponent({
     //@@viewOff:interface
 
     //@@viewOn:render
-    return <Plus4U5App.RouteBar appActionList={appActionList} {...props} />;
+    return <Plus4U5App.RouteBar appActionList={appActionList} mode={mode} {...props} />;
     //@@viewOff:render
   },
 });

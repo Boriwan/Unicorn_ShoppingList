@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { Utils, createVisualComponent, useSession, Lsi } from "uu5g05";
+import { Utils, createVisualComponent, useSession, Lsi, useEffect } from "uu5g05";
 import Uu5Elements from "uu5g05-elements";
 import Plus4U5Elements from "uu_plus4u5g02-elements";
 import { withRoute } from "uu_plus4u5g02-app";
@@ -49,12 +49,25 @@ let Home = createVisualComponent({
     //@@viewOff:interface
 
     //@@viewOn:render
+    const { mode } = props;
+
+    // useEffect(() => {
+    //   // Update background color based on mode
+    //   const backgroundColor = mode === "light" ? "white" : "black";
+    //   document.body.style.backgroundColor = backgroundColor;
+
+    //   return () => {
+    //     // Clean up the side effect when the component unmounts
+    //     document.body.style.backgroundColor = "";
+    //   };
+    // }, );
     const attrs = Utils.VisualComponent.getAttrs(props, Css.main());
+
     return (
       <>
         <RouteBar />
         <div {...attrs}>
-          <ShoppingLists  />
+          <ShoppingLists />
         </div>
       </>
     );
