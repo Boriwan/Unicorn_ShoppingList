@@ -1,9 +1,11 @@
 //@@viewOn:imports
-import { createVisualComponent, PropTypes, Utils } from "uu5g05";
+import { createVisualComponent, PropTypes, Utils, Lsi } from "uu5g05";
 
 import Config from "./config/config.js";
 import Uu5Elements from "uu5g05-elements";
 import { useState } from "uu5g05";
+import importLsi from "../lsi/import-lsi.js";
+
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -52,9 +54,18 @@ const ButtonGroup = createVisualComponent({
     const [open, setOpen] = useState();
 
     const confirmDeleteModal = (
-      <Uu5Elements.Modal width="30rem" header="Smazat nákupní seznam" open={open} onClose={() => setOpen(false)}>
-        <h3>Opravdu chcete smazat tento nákupní seznam?</h3>
-        <p>Tato akce je nevratná...</p>
+      <Uu5Elements.Modal
+        width="30rem"
+        header={<Lsi import={importLsi} path={["ShoppingList.Bricks.ButtonGroup", "modalTitle"]} />}
+        open={open}
+        onClose={() => setOpen(false)}
+      >
+        <h3>
+          <Lsi import={importLsi} path={["ShoppingList.Bricks.ButtonGroup", "confirmMessage1"]} />
+        </h3>
+        <p>
+          <Lsi import={importLsi} path={["ShoppingList.Bricks.ButtonGroup", "confirmMessage2"]} />
+        </p>
 
         <Uu5Elements.Button
           onClick={() => {
@@ -63,10 +74,10 @@ const ButtonGroup = createVisualComponent({
           iconRight="uugds-close"
           colorScheme="neutral"
         >
-          Zrušit
+          <Lsi import={importLsi} path={["ShoppingList.Bricks.ButtonGroup", "cancelButton"]} />
         </Uu5Elements.Button>
         <Uu5Elements.Button onClick={props.handleDeleteList} iconRight="uugds-delete" colorScheme="red">
-          Ano, smazat!
+          <Lsi import={importLsi} path={["ShoppingList.Bricks.ButtonGroup", "deleteButton"]} />
         </Uu5Elements.Button>
       </Uu5Elements.Modal>
     );
@@ -81,7 +92,7 @@ const ButtonGroup = createVisualComponent({
           iconRight="uugds-delete"
           colorScheme="red"
         >
-          Smazat
+          <Lsi import={importLsi} path={["ShoppingList.Bricks.ButtonGroup", "delete"]} />
         </Uu5Elements.Button>
         {confirmDeleteModal}
         <Uu5Elements.Button
@@ -90,7 +101,7 @@ const ButtonGroup = createVisualComponent({
           iconRight="uugdsstencil-uiaction-archive"
           colorScheme="blue"
         >
-          Archivovat
+          <Lsi import={importLsi} path={["ShoppingList.Bricks.ButtonGroup", "archive"]} />
         </Uu5Elements.Button>
       </div>
     );

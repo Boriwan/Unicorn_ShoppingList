@@ -1,10 +1,11 @@
 //@@viewOn:imports
-import { Utils, createVisualComponent, useSession, useRoute } from "uu5g05";
+import { Utils, createVisualComponent, useSession, useRoute, Lsi } from "uu5g05";
 
 import { useSubApp, useSystemData } from "uu_plus4u5g02";
 import Plus4U5App, { withRoute } from "uu_plus4u5g02-app";
 import Uu5Elements from "uu5g05-elements";
 import Uu5Forms from "uu5g05-forms";
+import importLsi from "../lsi/import-lsi.js";
 
 import { useState } from "uu5g05";
 
@@ -43,11 +44,13 @@ let ArchivedLists = createVisualComponent({
 
     // const shoppingList = shoppingListData;
 
-
     const archivedLists = shoppingListData.filter((list) => list.owner.id === identity.uuIdentity);
 
     const showArchived = (
-      <Uu5Elements.Block header="Moje archivované nákupní seznamy" headerType="title">
+      <Uu5Elements.Block
+        header={<Lsi import={importLsi} path={["ShoppingList.Routes.ArchivedLists", "header"]} />}
+        headerType="title"
+      >
         <Uu5Elements.Grid templateColumns="repeat(5, 15rem)" templateRows="180px 180px">
           {archivedLists
             .filter((item) => item.isArchived)

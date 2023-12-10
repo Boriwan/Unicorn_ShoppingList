@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { Utils, createVisualComponent, useSession, useElementSize, useRoute, useScreenSize } from "uu5g05";
+import { Utils, createVisualComponent, useSession, useElementSize, useRoute, useScreenSize, Lsi } from "uu5g05";
 
 import { useSubApp, useSystemData } from "uu_plus4u5g02";
 import Plus4U5App, { withRoute } from "uu_plus4u5g02-app";
@@ -8,6 +8,7 @@ import { useState } from "uu5g05";
 import Uu5Forms from "uu5g05-forms";
 
 import Config from "./config/config.js";
+import importLsi from "../lsi/import-lsi.js";
 import Item from "../bricks/item.js";
 import RouteBar from "../core/route-bar.js";
 import ButtonGroup from "../bricks/button-group.js";
@@ -168,14 +169,9 @@ let ShoppingListDetail = createVisualComponent({
 
     const renderAddItem = isArchived === "false" && (
       <Uu5Elements.ListItem>
-        <Uu5Elements.Input
-          placeholder="Zadejte další předmět"
-          value={newItem}
-          onChange={handleInputChange}
-          significance="subdued"
-        />
+        <Uu5Elements.Input placeholder="..." onChange={handleInputChange} significance="subdued" />
         <Uu5Elements.Button iconRight="uugds-plus" colorScheme="green" onClick={addItem}>
-          Přidat
+          <Lsi import={importLsi} path={["ShoppingList.Routes.ShoppingListDetail", "add"]} />
         </Uu5Elements.Button>
       </Uu5Elements.ListItem>
     );
@@ -191,36 +187,52 @@ let ShoppingListDetail = createVisualComponent({
               <h1>
                 {route.params.name || "Shopping List with the given ID does not exist"}
                 {renderEditButton}
-                <Uu5Elements.Modal header="Upravit nákupní seznam" open={open} onClose={() => setOpen(false)}>
+                <Uu5Elements.Modal
+                  header={<Lsi import={importLsi} path={["ShoppingList.Routes.ShoppingListDetail", "editHeader"]} />}
+                  open={open}
+                  onClose={() => setOpen(false)}
+                >
                   <Uu5Forms.FormText
                     initialValue={editedName}
                     onChange={handleNameChange}
-                    label="Název "
-                    placeholder="Název"
+                    label={<Lsi import={importLsi} path={["ShoppingList.Routes.ShoppingListDetail", "editText"]} />}
+                    placeholder={
+                      <Lsi import={importLsi} path={["ShoppingList.Routes.ShoppingListDetail", "editText"]} />
+                    }
                   />
 
                   <div>
-                    <p>Členové</p>
+                    <p>
+                      <Lsi import={importLsi} path={["ShoppingList.Routes.ShoppingListDetail", "editMembers"]} />
+                    </p>
                     {route.params.membersList}
                   </div>
 
                   <Uu5Elements.Button onClick={() => setOpen(false)} iconRight="uugds-close" colorScheme="red">
-                    Zrušit
+                    <Lsi import={importLsi} path={["ShoppingList.Routes.ShoppingListDetail", "cancel"]} />
                   </Uu5Elements.Button>
                   <Uu5Elements.Button onClick={updateNameInModal} iconRight="uugds-pencil" colorScheme="cyan">
-                    Uložit
+                    <Lsi import={importLsi} path={["ShoppingList.Routes.ShoppingListDetail", "save"]} />
                   </Uu5Elements.Button>
                 </Uu5Elements.Modal>
               </h1>
-              <h2>Vlastník: {route.params.ownerName}</h2>
-              <h2>Členové: {route.params.membersList}</h2>
+              <h2>
+                <Lsi import={importLsi} path={["ShoppingList.Routes.ShoppingListDetail", "owner"]} />
+                {route.params.ownerName}
+              </h2>
+              <h2>
+                <Lsi import={importLsi} path={["ShoppingList.Routes.ShoppingListDetail", "members"]} />
+                {route.params.membersList}
+              </h2>
             </div>
             {renderButtonGroup}
           </div>
 
           <div>
             <Uu5Elements.ListItem header="Seznam" headerType="title" colorScheme="cyan">
-              <strong>Seznam</strong>
+              <strong>
+                <Lsi import={importLsi} path={["ShoppingList.Routes.ShoppingListDetail", "list"]} />
+              </strong>
             </Uu5Elements.ListItem>
             {items}
             {renderAddItem}

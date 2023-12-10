@@ -33,5 +33,42 @@
     "home": "Domů",
     "archive": "Archiv",
     "about": "O aplikaci"
+  },
+  "ShoppingList.Bricks.ButtonGroup": {
+    "delete": "Smazat",
+    "archive": "Archivovat",
+    "modalTitle": "Smazání nákupního seznamu",
+    "confirmMessage1": "Opravdu chcete smazat tento nákupní seznam?",
+    "confirmMessage2": "Tato akce je nevratná...",
+    "deleteButton": "Ano, smazat!",
+    "cancelButton": "Zrušit"
+  },
+  "ShoppingList.Bricks.ShoppingListTile": {
+    "members": "Členové: ",
+    "open": "Otevřít"
+  },
+  "ShoppingList.Routes.ArchivedLists": {
+    "header": "Moje archivované nákupní seznamy"
+  },
+  "ShoppingList.Routes.ShoppingListDetail": {
+    "editHeader": "Upravit nákupní seznam",
+    "editText": "Název",
+    "editMembers": "Členové",
+    "cancel": "Zrušit",
+    "save": "Uložit",
+    "owner": "Vlastník: ",
+    "members": "Členové: ",
+    "list": "Seznam",
+    "add": "Přidat"
+  },
+  "ShoppingList.Routes.ShoppingLists": {
+    "myLists": "Moje nákupní seznamy",
+    "sharedWithMe": "Sdíleno se mnou",
+    "createModalTitle": "Vytvořit nákupní seznam",
+    "namePlaceholder": "Název",
+    "cancel": "Zrušit",
+    "create": "Vytvořit nákupní seznam",
+    "archived": "Archivované",
+    "createListButton": "Vytvořit seznam"
   }
 }

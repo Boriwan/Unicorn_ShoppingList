@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { Utils, createVisualComponent, useSession, useRoute } from "uu5g05";
+import { Utils, createVisualComponent, useSession, useRoute, Lsi } from "uu5g05";
 
 import { useSubApp, useSystemData } from "uu_plus4u5g02";
 import Plus4U5App, { withRoute } from "uu_plus4u5g02-app";
@@ -8,6 +8,7 @@ import Uu5Forms from "uu5g05-forms";
 
 import { useState } from "uu5g05";
 
+import importLsi from "../lsi/import-lsi.js";
 import Config from "./config/config.js";
 import ShoppingListTile from "../bricks/shopping-list-tile.js";
 import shoppingListData from "../../mock/data/shoppingLists.json";
@@ -76,7 +77,10 @@ let ShoppingLists = createVisualComponent({
       list.membersList.some((member) => member.id === identity.uuIdentity)
     );
     const showOwned = (
-      <Uu5Elements.Block header="Moje nákupní seznamy" headerType="title">
+      <Uu5Elements.Block
+        header={<Lsi import={importLsi} path={["ShoppingList.Routes.ShoppingLists", "myLists"]} />}
+        headerType="title"
+      >
         <Uu5Elements.Grid templateColumns="repeat(5, 15rem)" templateRows="180px 180px">
           {ownedLists
             .filter((item) => !item.isArchived)
@@ -90,7 +94,10 @@ let ShoppingLists = createVisualComponent({
     );
 
     const showSharedWithMe = (
-      <Uu5Elements.Block header="Sdíleno se mnou" headerType="title">
+      <Uu5Elements.Block
+        header={<Lsi import={importLsi} path={["ShoppingList.Routes.ShoppingLists", "sharedWithMe"]} />}
+        headerType="title"
+      >
         <Uu5Elements.Grid templateColumns="repeat(5, 15rem)" templateRows="180px 180px">
           {sharedLists.map((item) => (
             <div>
@@ -102,14 +109,18 @@ let ShoppingLists = createVisualComponent({
     );
 
     const showCreateListModal = (
-      <Uu5Elements.Modal width="30rem" header="Vytvořit nákupní seznam" open={open} onClose={() => setOpen(false)}>
+      <Uu5Elements.Modal
+        width="30rem"
+        header={<Lsi import={importLsi} path={["ShoppingList.Routes.ShoppingLists", "createModalTitle"]} />}
+        open={open}
+        onClose={() => setOpen(false)}
+      >
         <Uu5Elements.Grid templateColumns="1fr" templateRows="auto 1fr" rowGap="16px">
           <div style={{ gridColumn: "1", gridRow: "1" }}>
             <Uu5Forms.Text.Input
               onChange={handleNameChange}
               value={newList.name}
-              placeholder="Název"
-              significance="distinct"
+              placeholder={<Lsi import={importLsi} path={["ShoppingList.Routes.ShoppingLists", "namePlaceholder"]} />}
               required
             />
           </div>
@@ -122,12 +133,12 @@ let ShoppingLists = createVisualComponent({
               iconRight="uugds-close"
               colorScheme="red"
             >
-              Zrušit
+              <Lsi import={importLsi} path={["ShoppingList.Routes.ShoppingLists", "cancel"]} />
             </Uu5Elements.Button>
           </div>
           <div style={{ gridColumn: "2", gridRow: "2" }}>
             <Uu5Elements.Button onClick={createShoppingList} iconRight="uugds-plus-circle" colorScheme="green">
-              Vytvořit nákupní seznam
+              <Lsi import={importLsi} path={["ShoppingList.Routes.ShoppingLists", "create"]} />
             </Uu5Elements.Button>
           </div>
         </Uu5Elements.Grid>
@@ -153,7 +164,7 @@ let ShoppingLists = createVisualComponent({
             iconRight="uugdsstencil-uiaction-archive"
             colorScheme="blue"
           >
-            Archivované
+            <Lsi import={importLsi} path={["ShoppingList.Routes.ShoppingLists", "archived"]} />
           </Uu5Elements.Button>
           <Uu5Elements.Button
             onClick={() => setOpen(true)}
@@ -161,7 +172,7 @@ let ShoppingLists = createVisualComponent({
             iconRight="uugds-plus-circle"
             colorScheme="green"
           >
-            Vytvořit seznam
+            <Lsi import={importLsi} path={["ShoppingList.Routes.ShoppingLists", "createListButton"]} />
           </Uu5Elements.Button>
           {showCreateListModal}
         </Uu5Elements.Block>

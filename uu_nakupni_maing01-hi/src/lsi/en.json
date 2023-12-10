@@ -33,5 +33,42 @@
     "home": "Home",
     "archive": "Archive",
     "about": "About Application"
+  },
+  "ShoppingList.Bricks.ButtonGroup": {
+    "delete": "Delete",
+    "archive": "Archive",
+    "modalTitle": "Delete shopping list",
+    "confirmMessage1": "Are you sure you want to delete? the shopping list?",
+    "confirmMessage2": "This action is irreversible...",
+    "deleteButton": "Yes, delete",
+    "cancelButton": "Cancel"
+  },
+  "ShoppingList.Bricks.ShoppingListTile": {
+    "members": "Members: ",
+    "open": "Open"
+  },
+  "ShoppingList.Routes.ArchivedLists": {
+    "header": "My archived shopping lists"
+  },
+  "ShoppingList.Routes.ShoppingListDetail": {
+    "editHeader": "Edit shopping list",
+    "editText": "Name",
+    "editMembers": "Members",
+    "cancel": "Cancel",
+    "save": "Save",
+    "owner": "Owner: ",
+    "members": "Members: ",
+    "list": "List",
+    "add": "Add"
+  },
+  "ShoppingList.Routes.ShoppingLists": {
+    "myLists": "My shopping lists",
+    "sharedWithMe": "Shared with me",
+    "createModalTitle": "Create a shopping list",
+    "namePlaceholder": "Name",
+    "cancel": "Cancel",
+    "create": "Create",
+    "archived": "Archived",
+    "createListButton": "Create a shopping list"
   }
 }

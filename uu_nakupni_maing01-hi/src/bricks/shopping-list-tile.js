@@ -1,9 +1,11 @@
 //@@viewOn:imports
-import { Utils, createVisualComponent, useRoute, useSession } from "uu5g05";
+import { Utils, createVisualComponent, useRoute, useSession, Lsi } from "uu5g05";
 
 import Config from "./config/config.js";
 import Uu5Elements from "uu5g05-elements";
 import { useState } from "uu5g05";
+import importLsi from "../lsi/import-lsi.js";
+
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -44,7 +46,10 @@ const ShoppingListTile = createVisualComponent({
 
     return (
       <Uu5Elements.Tile header={props.name} headerColorScheme="cyan" width={200} height={150}>
-        <p>Členové: {props.membersList.length}</p>
+        <p>
+          <Lsi import={importLsi} path={["ShoppingList.Bricks.ShoppingListTile", "members"]} /> 
+          {props.membersList.length}
+        </p>
         <Uu5Elements.Button
           colorScheme="purple"
           onClick={() => {
@@ -59,7 +64,7 @@ const ShoppingListTile = createVisualComponent({
             });
           }}
         >
-          Otevřít
+          <Lsi import={importLsi} path={["ShoppingList.Bricks.ShoppingListTile", "open"]} />
         </Uu5Elements.Button>
       </Uu5Elements.Tile>
     );
