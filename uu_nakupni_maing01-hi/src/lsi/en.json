@@ -45,6 +45,7 @@
   },
   "ShoppingList.Bricks.ShoppingListTile": {
     "members": "Members: ",
+    "items": "Items: ",
     "open": "Open"
   },
   "ShoppingList.Routes.ArchivedLists": {

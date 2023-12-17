@@ -45,10 +45,14 @@ const ShoppingListTile = createVisualComponent({
     const memberNames = props.membersList.map((member) => member.name);
 
     return (
-      <Uu5Elements.Tile header={props.name} headerColorScheme="cyan" width={200} height={150}>
+      <Uu5Elements.Tile header={props.name} headerColorScheme="cyan" width={200} height={180}>
         <p>
-          <Lsi import={importLsi} path={["ShoppingList.Bricks.ShoppingListTile", "members"]} /> 
+          <Lsi import={importLsi} path={["ShoppingList.Bricks.ShoppingListTile", "members"]} />
           {props.membersList.length}
+        </p>
+        <p>
+          <Lsi import={importLsi} path={["ShoppingList.Bricks.ShoppingListTile", "items"]} />
+          {props.itemList.length}
         </p>
         <Uu5Elements.Button
           colorScheme="purple"

@@ -6,6 +6,7 @@ import Plus4U5App, { withRoute } from "uu_plus4u5g02-app";
 import Uu5Elements from "uu5g05-elements";
 import { useState } from "uu5g05";
 import Uu5Forms from "uu5g05-forms";
+// import { PieChart } from "uu5chartsg01";
 
 import Config from "./config/config.js";
 import importLsi from "../lsi/import-lsi.js";
@@ -238,6 +239,16 @@ let ShoppingListDetail = createVisualComponent({
             {renderAddItem}
           </div>
         </div>
+        <PieChart
+          data={items}
+          serieList={[
+            {
+              valueKey: "sum",
+              labelKey: "isCompleted",
+              label: true,
+            },
+          ]}
+        />
       </div>
     );
   },

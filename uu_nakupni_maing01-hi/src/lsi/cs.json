@@ -45,6 +45,7 @@
   },
   "ShoppingList.Bricks.ShoppingListTile": {
     "members": "Členové: ",
+    "items":"Položky: ",
     "open": "Otevřít"
   },
   "ShoppingList.Routes.ArchivedLists": {

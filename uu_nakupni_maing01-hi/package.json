@@ -7,15 +7,16 @@
   "namespace": "UuNakupni",
   "spec": "uu5-app; uu_appg01_devkit@5.15.4",
   "dependencies": {
+    "recharts": "^2.10.3",
+    "uu_plus4u5g02": "^1.22.2",
+    "uu_plus4u5g02-app": "^1.22.2",
+    "uu_plus4u5g02-elements": "^1.22.2",
     "uu5g04": "^1.57.2",
     "uu5g05": "^1.22.1",
     "uu5g05-browser-compatibility": "^1.22.1",
     "uu5g05-elements": "^1.22.1",
     "uu5g05-forms": "^1.22.1",
-    "uu5loaderg01": "^1.6.1",
-    "uu_plus4u5g02": "^1.22.2",
-    "uu_plus4u5g02-app": "^1.22.2",
-    "uu_plus4u5g02-elements": "^1.22.2"
+    "uu5loaderg01": "^1.6.1"
   },
   "uuBuildSettings": {
     "externals": {}
